@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About & Methodology — Martin Way for People"
+  description="Data sources, methodology, and contact information."
+  canonicalPath="/about"
+>
+
+<main class="max-w-3xl mx-auto px-6 py-20">
+  <a href="/" class="text-sm text-muted hover:text-ink underline mb-8 inline-block">← Back to main page</a>
+
+  <h1 class="font-display text-3xl font-bold mb-8">About This Site</h1>
+
+  <section class="mb-12">
+    <h2 class="font-display text-xl font-bold mb-3">Who maintains this</h2>
+    <p class="text-muted text-base leading-relaxed mb-2">
+      This site is maintained by residents of Olympia's eastside. We are not affiliated with any political organization, campaign, or advocacy group.
+    </p>
+    <p class="text-muted text-base leading-relaxed">
+      Contact: <a href="mailto:martinwayforpeople@pm.me" class="text-data underline">martinwayforpeople@pm.me</a>
+    </p>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="font-display text-xl font-bold mb-3">Data sources</h2>
+    <div class="border border-border rounded-lg overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-paper-warm">
+          <tr>
+            <th class="text-left px-4 py-3 font-semibold text-ink">Dataset</th>
+            <th class="text-left px-4 py-3 font-semibold text-ink">Source</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-border">
+          <tr><td class="px-4 py-3 text-muted">Crash data (2016–2025)</td><td class="px-4 py-3 text-muted">WSDOT Crash Data Portal</td></tr>
+          <tr><td class="px-4 py-3 text-muted">Bus stops &amp; ridership</td><td class="px-4 py-3 text-muted">Intercity Transit (GTFS &amp; public records request)</td></tr>
+          <tr><td class="px-4 py-3 text-muted">Priority crossings</td><td class="px-4 py-3 text-muted">TRPC Martin Way Crossing Strategy (June 2025)</td></tr>
+          <tr><td class="px-4 py-3 text-muted">Corridor study</td><td class="px-4 py-3 text-muted">TRPC Martin Way Corridor Study (October 2021)</td></tr>
+          <tr><td class="px-4 py-3 text-muted">Project site boundary</td><td class="px-4 py-3 text-muted">Thurston County GeoData</td></tr>
+          <tr><td class="px-4 py-3 text-muted">Safety corridor</td><td class="px-4 py-3 text-muted">City of Olympia Capital Facilities Plan</td></tr>
+          <tr><td class="px-4 py-3 text-muted">Traffic Impact Analysis</td><td class="px-4 py-3 text-muted">TENW, June 2, 2025 (applicant-prepared)</td></tr>
+          <tr><td class="px-4 py-3 text-muted">SEPA documents</td><td class="px-4 py-3 text-muted">City of Olympia CPED, Project No. 25-3357</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="font-display text-xl font-bold mb-3">Crash data methodology</h2>
+    <p class="text-muted text-base leading-relaxed mb-2">
+      Crash data was obtained from the WSDOT crash data portal for the Martin Way E corridor from 2016 through 2025. Records were geocoded and filtered to the corridor study area. Of 7,184 initial records, 444 were excluded for missing coordinates or locations outside the corridor. The final dataset contains 1,112 crash records.
+    </p>
+    <p class="text-muted text-base leading-relaxed">
+      Pedestrian crashes were identified by collision type field. Fatal crashes were identified by severity field. Both classifications use WSDOT's standard coding.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="font-display text-xl font-bold mb-3">License</h2>
+    <p class="text-muted text-base leading-relaxed">
+      Content is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="text-data underline">CC BY-SA 4.0</a>.
+      Code is licensed under the <a href="https://opensource.org/licenses/MIT" class="text-data underline">MIT License</a>.
+    </p>
+  </section>
+</main>
+
+</BaseLayout>
