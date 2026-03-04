@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concept C — The Brief</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,900&family=Anybody:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #fafaf8;
+    --ink: #111;
+    --dim: #666;
+    --faint: #999;
+    --line: #e0e0dd;
+    --red: #c0392b;
+    --red-bg: #fdf0ee;
+    --red-dark: #922b21;
+    --blue: #2471a3;
+    --blue-bg: #eef6fc;
+    --green: #1e8449;
+    --green-bg: #eafaf1;
+    --warm: #f7f5f0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Anybody', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .concept-label {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .concept-label span { opacity: 0.5; }
+
+  /* ─── Newspaper-style header ─── */
+  .masthead {
+    max-width: 900px;
+    margin: 60px auto 0;
+    padding: 24px 24px 0;
+    text-align: center;
+  }
+
+  .masthead-name {
+    font-family: 'Fraunces', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 4px;
+  }
+
+  .masthead-rule {
+    height: 3px;
+    background: var(--ink);
+    margin: 16px 0 0;
+  }
+
+  .masthead-rule-thin {
+    height: 1px;
+    background: var(--line);
+    margin: 4px 0 0;
+  }
+
+  /* ─── Status Strip ─── */
+  .status-strip {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+  }
+
+  .status-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  .status-left::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+  }
+
+  .status-right {
+    color: var(--faint);
+  }
+
+  /* ─── Headline ─── */
+  .headline-block {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px 40px;
+    text-align: center;
+  }
+
+  .headline-block h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    max-width: 720px;
+    margin: 0 auto 20px;
+  }
+
+  .headline-block h1 em {
+    font-style: normal;
+    color: var(--red);
+  }
+
+  .headline-deck {
+    font-size: 18px;
+    color: var(--dim);
+    max-width: 580px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ─── Dual-column layout ─── */
+  .dual {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  .dual-full {
+    grid-column: 1 / -1;
+  }
+
+  .col-divider {
+    grid-column: 1 / -1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  /* Section headers */
+  .section-num {
+    font-family: 'Fraunces', serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .body-text {
+    font-size: 15px;
+    color: var(--dim);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  /* ─── Stats Panel ─── */
+  .stats-panel {
+    background: var(--ink);
+    border-radius: 8px;
+    padding: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .stat-item { text-align: center; }
+
+  .stat-big {
+    font-family: 'Fraunces', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: white;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-big.danger { color: #e74c3c; }
+  .stat-big.info { color: #5dade2; }
+
+  .stat-sub {
+    font-size: 12px;
+    color: #999;
+    line-height: 1.3;
+  }
+
+  /* ─── Map ─── */
+  .map-block {
+    grid-column: 1 / -1;
+    background: #1a1a2e;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #2a2a3e;
+  }
+
+  .map-label {
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #2a2a3e;
+  }
+
+  .map-label-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+  }
+
+  .map-label-source {
+    font-size: 12px;
+    color: #666;
+  }
+
+  .map-area {
+    aspect-ratio: 2.5/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    font-size: 14px;
+    position: relative;
+  }
+
+  .map-area::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 40% 50%, rgba(231, 76, 60, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 65% 40%, rgba(93, 173, 226, 0.08) 0%, transparent 40%);
+  }
+
+  .map-area span { position: relative; z-index: 1; }
+
+  .map-legend-bar {
+    padding: 12px 24px;
+    border-top: 1px solid #2a2a3e;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #888;
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  /* ─── Findings list ─── */
+  .findings {
+    list-style: none;
+    padding: 0;
+    counter-reset: finding;
+  }
+
+  .findings li {
+    counter-increment: finding;
+    padding: 12px 0 12px 36px;
+    position: relative;
+    font-size: 15px;
+    color: var(--dim);
+    line-height: 1.5;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .findings li:last-child { border: none; }
+
+  .findings li::before {
+    content: counter(finding);
+    position: absolute;
+    left: 0;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 18px;
+    color: var(--red);
+    line-height: 1.2;
+  }
+
+  /* ─── Action Blocks ─── */
+  .action-block {
+    padding: 32px;
+    border-radius: 8px;
+    border: 2px solid;
+  }
+
+  .action-block.primary-action {
+    border-color: var(--red);
+    background: var(--red-bg);
+  }
+
+  .action-block.secondary-action {
+    border-color: var(--line);
+    background: var(--warm);
+  }
+
+  .action-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+  }
+
+  .action-tag.urgent {
+    background: var(--red);
+    color: white;
+  }
+
+  .action-tag.ongoing {
+    background: var(--line);
+    color: var(--dim);
+  }
+
+  .action-block h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .action-block p {
+    font-size: 14px;
+    color: var(--dim);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .action-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+
+  .btn-red {
+    background: var(--red);
+    color: white;
+  }
+  .btn-red:hover { background: var(--red-dark); }
+
+  .btn-outline {
+    background: white;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  .btn-outline:hover { background: var(--warm); }
+
+  .guide-box {
+    margin-top: 16px;
+    padding: 16px;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #e8d5d2;
+  }
+
+  .guide-box strong {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+
+  .guide-box ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .guide-box li {
+    font-size: 13px;
+    color: var(--dim);
+    padding: 4px 0 4px 16px;
+    position: relative;
+  }
+
+  .guide-box li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--red);
+  }
+
+  .council-note {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: var(--blue-bg);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--blue);
+    line-height: 1.5;
+  }
+
+  /* ─── Footer ─── */
+  .footer-rule {
+    max-width: 900px;
+    margin: 0 auto;
+    height: 3px;
+    background: var(--ink);
+  }
+
+  .footer-rule-thin {
+    max-width: 900px;
+    margin: 0 auto;
+    height: 1px;
+    background: var(--line);
+  }
+
+  footer {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--faint);
+  }
+
+  footer a { color: var(--dim); }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 700px) {
+    .dual { grid-template-columns: 1fr; gap: 32px; }
+    .stats-panel { grid-template-columns: 1fr 1fr; }
+    .status-strip { flex-direction: column; gap: 4px; align-items: flex-start; }
+    footer { flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="concept-label">
+  Concept C <span>— The Brief: Newspaper / legal-brief hybrid, structured authority</span>
+</div>
+
+<!-- ═══════════ MASTHEAD ═══════════ -->
+<header class="masthead">
+  <div class="masthead-name">Martin Way for People</div>
+  <div class="masthead-rule"></div>
+  <div class="masthead-rule-thin"></div>
+</header>
+
+<!-- ═══════════ STATUS ═══════════ -->
+<div class="status-strip">
+  <div class="status-left">SEPA Appeal Filed · All Permits Frozen</div>
+  <div class="status-right">Olympia, Washington · Project No. 25-3357</div>
+</div>
+
+<!-- ═══════════ HEADLINE ═══════════ -->
+<div class="headline-block">
+  <h1>City approves 1,693 daily car trips on deadliest pedestrian corridor — <em>with no safety&nbsp;analysis</em></h1>
+  <p class="headline-deck">A 90-page traffic study for the proposed Chick-fil-A at 4505 Martin Way E contains no pedestrian safety analysis. The appeal has been filed. Public comment will determine what happens next.</p>
+</div>
+
+<!-- ═══════════ MAIN CONTENT ═══════════ -->
+<div class="dual">
+
+  <!-- Left: The Case -->
+  <div>
+    <div class="section-num">I. The Record</div>
+    <div class="section-title">What the traffic study omits</div>
+    <p class="body-text">The Traffic Impact Analysis prepared for the applicant analyzes vehicle delay at five intersections. It does not contain any pedestrian volume counts, any pedestrian level-of-service analysis, or any assessment of how 1,693 new daily vehicle trips affect pedestrian safety on Martin Way.</p>
+    <p class="body-text">The TIA's own crash data documents pedestrian crashes — then never analyzes them. The TRPC's Martin Way Crossing Strategy, completed during the project review, identifies the project site as a priority crossing location. The traffic study does not reference this finding.</p>
+  </div>
+
+  <!-- Right: Stats -->
+  <div>
+    <div class="section-num">By the numbers</div>
+    <div class="stats-panel">
+      <div class="stat-item">
+        <div class="stat-big danger">1,112</div>
+        <div class="stat-sub">Total crashes<br>2016–2025</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-big danger">27</div>
+        <div class="stat-sub">Pedestrians<br>struck</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-big info">$1.6M</div>
+        <div class="stat-sub">City safety<br>investment</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-big danger">0</div>
+        <div class="stat-sub">Pedestrian analysis<br>in traffic study</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="col-divider"></div>
+
+  <!-- Map — Full Width -->
+  <div class="map-block">
+    <div class="map-label">
+      <div class="map-label-text">Martin Way E Corridor — Crash Data, Bus Stops & Priority Crossings</div>
+      <div class="map-label-source">WSDOT · TRPC · Intercity Transit · 2016–2025</div>
+    </div>
+    <div class="map-area">
+      <span>Interactive Leaflet map</span>
+    </div>
+    <div class="map-legend-bar">
+      <div class="legend-item"><div class="legend-dot" style="background:#e74c3c"></div> Pedestrian crash</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#e67e22"></div> Vehicle crash</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#3498db"></div> Bus stop</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#9b59b6"></div> Priority crossing</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#2ecc71"></div> Project site</div>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="col-divider"></div>
+
+  <!-- Findings — Left -->
+  <div>
+    <div class="section-num">II. Key Findings</div>
+    <div class="section-title">Five facts the hearing examiner should&nbsp;know</div>
+    <ol class="findings">
+      <li>The traffic study contains zero pedestrian safety analysis despite documenting pedestrian crashes in its own data</li>
+      <li>Martin Way has the highest pedestrian fatality rate of any corridor in Thurston County</li>
+      <li>TRPC identified the project site as one of 10 priority crossing locations — the study ignores this</li>
+      <li>357 daily bus riders at adjacent stops cross a 4-lane road with no marked crosswalks</li>
+      <li>The city is spending $1.637M on pedestrian safety on this corridor while approving a project that adds 1,693 daily trips without studying the impact</li>
+    </ol>
+  </div>
+
+  <!-- Actions — Right -->
+  <div>
+    <div class="section-num">III. What You Can Do</div>
+    <div class="section-title">Two actions that&nbsp;matter</div>
+
+    <div class="action-block primary-action" style="margin-bottom: 20px;">
+      <div class="action-tag urgent">Time-limited</div>
+      <h3>Submit a public comment</h3>
+      <p>Your written comment goes to the hearing examiner and becomes part of the official record. We'll notify you when the comment window opens.</p>
+      <a href="#" class="action-btn btn-red">Get notified</a>
+
+      <div class="guide-box">
+        <strong>What to say</strong>
+        <ul>
+          <li>The traffic study has no pedestrian safety analysis</li>
+          <li>This is the deadliest pedestrian corridor in the county</li>
+          <li>1,693 new trips next to bus stops with no crosswalks</li>
+          <li>Your personal experience on Martin Way</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="action-block secondary-action">
+      <div class="action-tag ongoing">Ongoing</div>
+      <h3>Email city council</h3>
+      <p>Ask them to close the code gap that allowed this approval. For council, speak from whatever concerns you.</p>
+      <a href="#" class="action-btn btn-outline">See contacts & template</a>
+
+      <div class="council-note">
+        Council emails can address safety, values, community impact — whatever motivates you. The hearing examiner requires safety focus; council does not.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<div class="footer-rule"></div>
+<div class="footer-rule-thin"></div>
+<footer>
+  <span>Olympia eastside residents · Not affiliated with any political organization</span>
+  <span>Sources: <a href="#">WSDOT</a> · <a href="#">TRPC</a> · <a href="#">Intercity Transit</a> · <a href="#">City of Olympia</a></span>
+</footer>
+
+</body>
+</html>
