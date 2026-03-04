@@ -1,8 +1,17 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "chickfila-lite",
-  "compatibility_date": "2025-09-27",
-  "assets": {
-    "directory": "./dist"
-  }
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "chickfila-lite",
+	"compatibility_date": "2025-09-27",
+	"main": "./dist/_worker.js",
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "martinway-subscribers",
+			"database_id": "a153cf61-abb9-4b50-88b2-33fe3fcbbab8"
+		}
+	]
 }

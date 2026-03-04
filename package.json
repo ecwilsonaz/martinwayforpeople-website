@@ -3,12 +3,15 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "dev:worker": "astro build && wrangler dev"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260301.1",
     "tailwindcss": "^3.4.19"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^12.6.12",
     "@astrojs/tailwind": "^6.0.2",
     "astro": "^5.18.0",
     "leaflet": "^1.9.4"
