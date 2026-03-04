@@ -89,12 +89,12 @@
       maxZoom: 19,
     }).addTo(map);
 
-    const busStopsLayer = L.layerGroup().addTo(map);
-    const crossingsLayer = L.layerGroup().addTo(map);
+    const busStopsLayer = L.layerGroup();
+    const crossingsLayer = L.layerGroup();
     const siteParcelLayer = L.layerGroup().addTo(map);
-    const safetyCorridorLayer = L.layerGroup().addTo(map);
+    const safetyCorridorLayer = L.layerGroup();
     const crashesLayer = L.layerGroup().addTo(map);
-    const pedCrashesLayer = L.layerGroup();
+    const pedCrashesLayer = L.layerGroup().addTo(map);
 
     function escapeHtml(str: string): string {
       if (!str) return '';
