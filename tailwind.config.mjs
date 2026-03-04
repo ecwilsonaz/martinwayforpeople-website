@@ -10,7 +10,7 @@ export default {
         data: { DEFAULT: '#1e40af', light: '#eff6ff' },
         muted: { DEFAULT: '#475569', light: '#94a3b8' },
         border: '#d6d0c4',
-        green: { deep: '#166534', bg: '#f0fdf4', border: '#bbf7d0' },
+        green: { deep: '#166534', bg: '#f0fdf4', border: '#15803d' },
       },
       fontFamily: {
         display: ['"Source Serif 4"', 'Georgia', 'serif'],

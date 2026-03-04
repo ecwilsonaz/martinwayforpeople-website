@@ -186,12 +186,12 @@ import { siteMeta } from '../data/site-meta';
           type="submit"
           class="inline-flex items-center justify-center gap-2 bg-danger text-white px-6 py-3 text-base font-semibold rounded hover:bg-danger-dark transition-colors disabled:opacity-60"
         >
-          <span class="btn-label">Notify me</span>
+          <span class="btn-label">Notify me when comments open</span>
           <svg class="btn-spinner hidden w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/></svg>
         </button>
       </form>
       <p id="subscribe-status" role="status" aria-live="polite" class="mt-3 text-sm min-h-[1.25rem]"></p>
-      <p class="mt-2 text-xs text-muted">We'll only email you about the Martin Way appeal. <a href="/privacy" class="underline hover:text-ink">Privacy Policy</a></p>
+      <p class="mt-2 text-xs text-muted">We'll email you when the public comment window opens and with other ways to help. <a href="/privacy" class="underline hover:text-ink">Privacy Policy</a></p>
     </div>
 
     <!-- Secondary: Council Email -->
@@ -362,7 +362,7 @@ Thank you.</div>
         status.classList.add('text-danger');
       } finally {
         btn.disabled = false;
-        btnLabel.textContent = 'Notify me';
+        btnLabel.textContent = 'Notify me when comments open';
         btnSpinner.classList.add('hidden');
       }
     });
