@@ -6,7 +6,7 @@ export default {
       colors: {
         ink: '#1a1a1a',
         paper: { DEFAULT: '#f5f2ed', warm: '#ede8e0' },
-        danger: { DEFAULT: '#b91c1c', light: '#fef2f2', dark: '#7f1d1d' },
+        danger: { DEFAULT: '#b91c1c', light: '#fecaca', dark: '#7f1d1d' },
         data: { DEFAULT: '#1e40af', light: '#eff6ff' },
         muted: { DEFAULT: '#475569', light: '#94a3b8' },
         border: '#d6d0c4',
