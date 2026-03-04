@@ -31,11 +31,12 @@ import { siteMeta } from '../data/site-meta';
     Martin Way has the highest pedestrian fatality rate in Thurston County. A Chick-fil-A dual drive-through was approved here. The 90-page traffic study never analyzes pedestrian safety. We appealed. Permits are frozen. Now we need your voice.
   </p>
   <div class="mt-10 animate-fade-up delay-3">
-    <a href="#action"
-       class="inline-flex items-center gap-2 bg-danger text-white px-8 py-4 text-base font-semibold rounded hover:bg-danger-dark transition-colors">
+    <button type="button"
+       onclick="document.getElementById('action').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)"
+       class="inline-flex items-center gap-2 bg-danger text-white px-8 py-4 text-base font-semibold rounded hover:bg-danger-dark transition-colors cursor-pointer">
       Submit a public comment
       <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </a>
+    </button>
   </div>
   <p class="mt-16 text-sm text-muted tracking-wide animate-fade-up delay-4">↓ Scroll to see the evidence</p>
 </section>
