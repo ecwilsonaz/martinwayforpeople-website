@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SafetyMap from '../islands/SafetyMap.astro';
 import { siteMeta } from '../data/site-meta';
+import { appealStatus } from '../data/appeal-status';
 ---
 
 <BaseLayout
@@ -13,11 +14,11 @@ import { siteMeta } from '../data/site-meta';
 <!-- ═══════════ HERO ═══════════ -->
 <section class="min-h-screen flex flex-col justify-center px-6 max-w-3xl mx-auto pt-16 pb-20">
   <p class="text-sm font-semibold tracking-widest uppercase text-danger mb-6 animate-fade-up">
-    Martin Way · Olympia, WA
+    4505 Martin Way E · Olympia, WA
   </p>
   <div class="animate-fade-up delay-1">
     <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.08] tracking-tight">
-      1,693 new daily trips on a deadly&nbsp;corridor.
+      1,693 net new daily trips on a deadly&nbsp;corridor.
     </h1>
     <p class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.12] tracking-tight text-muted mt-3">
       For a&nbsp;Chick-fil-A.
@@ -160,7 +161,7 @@ import { siteMeta } from '../data/site-meta';
         </p>
       </div>
 
-      <a href="#" class="inline-flex items-center gap-2 bg-danger text-white px-6 py-3 text-base font-semibold rounded hover:bg-danger-dark transition-colors">
+      <a href={appealStatus.tallyFormUrl} target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-danger text-white px-6 py-3 text-base font-semibold rounded hover:bg-danger-dark transition-colors">
         Sign up for comment notification
       </a>
     </div>
@@ -172,9 +173,71 @@ import { siteMeta } from '../data/site-meta';
       <p class="text-muted text-base mb-4">
         Council members can close the code gap that allowed this approval. They can direct the Planning Commission to study drive-through impacts on Martin Way. For council emails, speak from whatever concerns you — safety, values, community impact.
       </p>
-      <a href="#" class="inline-flex items-center gap-2 bg-white text-ink border border-border px-6 py-3 text-base font-semibold rounded hover:bg-paper transition-colors">
-        See council contacts &amp; template
-      </a>
+
+      <details class="group">
+        <summary class="cursor-pointer select-none inline-flex items-center gap-2 bg-white text-ink border border-border px-6 py-3 text-base font-semibold rounded hover:bg-paper transition-colors">
+          <svg class="w-4 h-4 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          Council contacts &amp; template
+        </summary>
+
+        <div class="mt-6 space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="border border-border rounded-lg px-4 py-3">
+              <p class="font-semibold text-sm">Clark Gilman</p>
+              <p class="text-xs text-muted-light mb-1">Position 4</p>
+              <a href="mailto:cgilman@ci.olympia.wa.us" class="text-data text-sm underline">cgilman@ci.olympia.wa.us</a>
+            </div>
+            <div class="border border-border rounded-lg px-4 py-3">
+              <p class="font-semibold text-sm">Robert Vanderpool</p>
+              <p class="text-xs text-muted-light mb-1">Position 6</p>
+              <a href="mailto:rvanderpool@ci.olympia.wa.us" class="text-data text-sm underline">rvanderpool@ci.olympia.wa.us</a>
+            </div>
+            <div class="border border-border rounded-lg px-4 py-3">
+              <p class="font-semibold text-sm">Yến Huỳnh</p>
+              <p class="text-xs text-muted-light mb-1">Position 2, Mayor Pro-tem</p>
+              <a href="mailto:yhuynh@ci.olympia.wa.us" class="text-data text-sm underline">yhuynh@ci.olympia.wa.us</a>
+            </div>
+            <div class="border border-border rounded-lg px-4 py-3">
+              <p class="font-semibold text-sm">Kelly Green</p>
+              <p class="text-xs text-muted-light mb-1">Position 5</p>
+              <a href="mailto:kgreen@ci.olympia.wa.us" class="text-data text-sm underline">kgreen@ci.olympia.wa.us</a>
+            </div>
+            <div class="border border-border rounded-lg px-4 py-3">
+              <p class="font-semibold text-sm">Dani Madrone</p>
+              <p class="text-xs text-muted-light mb-1">Position 3</p>
+              <a href="mailto:dmadrone@ci.olympia.wa.us" class="text-data text-sm underline">dmadrone@ci.olympia.wa.us</a>
+            </div>
+            <div class="border border-border rounded-lg px-4 py-3">
+              <p class="font-semibold text-sm">Paul Berendt</p>
+              <p class="text-xs text-muted-light mb-1">Position 7</p>
+              <a href="mailto:pberendt@ci.olympia.wa.us" class="text-data text-sm underline">pberendt@ci.olympia.wa.us</a>
+            </div>
+          </div>
+
+          <p class="text-muted text-sm">Copy and personalize before sending. Personal details carry more weight than form letters.</p>
+
+          <div class="relative bg-paper border border-border rounded-lg p-6">
+            <button data-copy-target="template-council" class="absolute top-3 right-3 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md bg-white border border-border text-muted hover:text-ink transition-colors">
+              <svg class="copy-icon w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              <svg class="check-icon w-3.5 h-3.5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              <span class="copy-label">Copy</span>
+            </button>
+            <div id="template-council" class="text-sm text-muted leading-relaxed whitespace-pre-line pr-16">Good evening, Mayor and Council Members.
+
+My name is [Your Name] and I [live/work/commute] in [Olympia / the Eastside neighborhood / along Martin Way].
+
+In April 2024, this council voted against a drive-through on Plum Street. Council members argued that piecemeal auto-centric decisions shouldn't proceed without comprehensive corridor planning.
+
+In February, city staff approved a Chick-fil-A drive-through at 4505 Martin Way. 1,693 net new daily vehicle trips on Thurston County's most dangerous pedestrian corridor. No pedestrian safety analysis. The council had no input because Type II permits are staff decisions.
+
+The problem is a gap between your adopted plans and your zoning code. Every plan envisions a pedestrian-priority Martin Way. Your code still permits drive-throughs in HDC zones.
+
+I'm asking you to direct the Planning Commission to study drive-through compatibility with Martin Way corridor plans, and to close that gap before the next auto-centric proposal arrives.
+
+Thank you.</div>
+          </div>
+        </div>
+      </details>
     </div>
 
   </div>
@@ -198,5 +261,25 @@ import { siteMeta } from '../data/site-meta';
     <p class="text-xs text-muted-light mt-2">This site does not use cookies, analytics, or tracking of any kind.</p>
   </div>
 </footer>
+
+<script>
+  document.querySelectorAll('[data-copy-target]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-copy-target');
+      const el = document.getElementById(targetId!);
+      if (!el) return;
+      navigator.clipboard.writeText(el.textContent || '').then(() => {
+        btn.querySelector('.copy-icon')?.classList.add('hidden');
+        btn.querySelector('.check-icon')?.classList.remove('hidden');
+        btn.querySelector('.copy-label')!.textContent = 'Copied';
+        setTimeout(() => {
+          btn.querySelector('.copy-icon')?.classList.remove('hidden');
+          btn.querySelector('.check-icon')?.classList.add('hidden');
+          btn.querySelector('.copy-label')!.textContent = 'Copy';
+        }, 2000);
+      });
+    });
+  });
+</script>
 
 </BaseLayout>
