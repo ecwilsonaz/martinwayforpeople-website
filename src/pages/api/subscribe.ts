@@ -3,7 +3,8 @@ export const prerender = false;
 import type { APIRoute } from 'astro';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const ALLOWED_ORIGINS = ['https://martinwayforpeople.org', 'http://localhost'];
+const PROD_ORIGIN = 'https://martinwayforpeople.org';
+const LOCALHOST_RE = /^http:\/\/localhost(:\d+)?$/;
 
 async function hashIP(ip: string, salt: string): Promise<string> {
   const data = new TextEncoder().encode(salt + ip);
@@ -34,9 +35,9 @@ async function sendNotification(env: Env, email: string): Promise<void> {
 export const POST: APIRoute = async ({ request, locals }) => {
   const { env, ctx } = locals.runtime;
 
-  // Origin check
+  // Origin check — require header and use exact matching
   const origin = request.headers.get('origin') || '';
-  if (origin && !ALLOWED_ORIGINS.some(o => origin.startsWith(o))) {
+  if (origin !== PROD_ORIGIN && !LOCALHOST_RE.test(origin)) {
     return new Response(
       JSON.stringify({ ok: false, error: 'Forbidden' }),
       { status: 403, headers: { 'Content-Type': 'application/json' } },
@@ -46,7 +47,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
   // Parse body
   let email: string;
   const contentType = request.headers.get('content-type') || '';
-  if (contentType.includes('application/json')) {
+  const isJSON = contentType.includes('application/json');
+  if (isJSON) {
     try {
       const body = await request.json() as { email?: string };
       email = (body.email || '').trim().toLowerCase();
@@ -70,8 +72,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
   }
 
   // Hash IP for privacy
-  const ip = request.headers.get('cf-connecting-ip') || request.headers.get('x-forwarded-for') || 'unknown';
-  const ipHash = await hashIP(ip, env.IP_HASH_SALT || 'default-salt');
+  if (!env.IP_HASH_SALT) {
+    console.error('IP_HASH_SALT is not configured');
+    return new Response(
+      JSON.stringify({ ok: false, error: 'Server configuration error.' }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } },
+    );
+  }
+  const ip = request.headers.get('cf-connecting-ip') || 'unknown';
+  const ipHash = await hashIP(ip, env.IP_HASH_SALT);
 
   // Rate limit: max 5 signups per IP per hour
   const recent = await env.DB.prepare(
@@ -84,7 +93,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
     );
   }
 
-  // Insert into D1
+  // Insert into D1 — return identical message for new and duplicate signups
+  const successMsg = "You're signed up! We'll notify you when the comment window opens.";
+  const successRedirect = new URL('/', request.url);
+  successRedirect.searchParams.set('subscribed', '1');
+  successRedirect.hash = 'action';
+
   try {
     await env.DB.prepare(
       'INSERT INTO subscribers (email, ip_hash) VALUES (?, ?)'
@@ -92,8 +106,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : '';
     if (msg.includes('UNIQUE constraint failed')) {
+      if (!isJSON) return Response.redirect(successRedirect.toString(), 303);
       return new Response(
-        JSON.stringify({ ok: true, message: "You're already signed up — we'll be in touch!" }),
+        JSON.stringify({ ok: true, message: successMsg }),
         { status: 200, headers: { 'Content-Type': 'application/json' } },
       );
     }
@@ -106,14 +121,16 @@ export const POST: APIRoute = async ({ request, locals }) => {
   // Best-effort email notification
   ctx.waitUntil(sendNotification(env, email).catch(err => console.error('Notification failed:', err)));
 
+  if (!isJSON) return Response.redirect(successRedirect.toString(), 303);
   return new Response(
-    JSON.stringify({ ok: true, message: "You're signed up! We'll notify you when the comment window opens." }),
+    JSON.stringify({ ok: true, message: successMsg }),
     { status: 200, headers: { 'Content-Type': 'application/json' } },
   );
 };
 
-// Reject other methods
-export const ALL: APIRoute = () => {
+// Reject non-POST methods (Astro handles unmatched methods with 405 by default,
+// but explicit GET export ensures a clear response for the most common case)
+export const GET: APIRoute = () => {
   return new Response(
     JSON.stringify({ ok: false, error: 'Method not allowed' }),
     { status: 405, headers: { 'Content-Type': 'application/json', 'Allow': 'POST' } },

@@ -26,7 +26,8 @@ No test runner, linter, or formatter is configured.
 - `src/pages/` — Routes: `index.astro` (landing), `about.astro` (methodology)
 - `src/layouts/BaseLayout.astro` — Shared HTML shell with SEO meta tags, Google Fonts, OG/Twitter cards
 - `src/islands/SafetyMap.astro` — The only interactive component. Lazy-loads Leaflet via IntersectionObserver when scrolled into view. Fetches GeoJSON/CSV from `public/data/` at runtime.
-- `src/data/` — TypeScript constants: `site-meta.ts` (site name, URL, OG image), `appeal-status.ts` (hearing dates, Tally form URL, planner contact)
+- `src/data/` — TypeScript constants: `site-meta.ts` (site name, URL, OG image)
+- `src/pages/api/subscribe.ts` — Email signup endpoint (D1 + Resend), rate-limited, IP-hashed
 - `src/styles/global.css` — Tailwind directives, `animate-fade-up` animation with `.delay-1` through `.delay-5`
 - `public/data/` — Static data files: `crashes.geojson`, `bus_stops.csv`, `crossings.csv`, `site_parcel.geojson`, `safety_corridor.geojson`
 

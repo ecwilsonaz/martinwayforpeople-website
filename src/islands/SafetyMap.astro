@@ -194,11 +194,11 @@
           style: { color: '#dc2626', weight: 2, fillColor: '#dc2626', fillOpacity: 0.2, dashArray: '6 3' },
           onEachFeature(feature, layer) {
             const p = feature.properties;
-            const valueFormatted = '$' + Number(p.total_value).toLocaleString();
+            const valueFormatted = p.total_value != null ? '$' + Number(p.total_value).toLocaleString() : 'N/A';
             layer.bindPopup(
               '<strong>' + escapeHtml(p.address) + '</strong><br>' +
               '<span style="color:#fca5a5;">Owner:</span> ' + escapeHtml(p.owner) + '<br>' +
-              '<span style="color:#fca5a5;">Acreage:</span> ' + p.acres + ' acres<br>' +
+              '<span style="color:#fca5a5;">Acreage:</span> ' + escapeHtml(String(p.acres)) + ' acres<br>' +
               '<span style="color:#fca5a5;">Assessed Value:</span> ' + valueFormatted + '<br>' +
               '<span style="color:#fca5a5;">Description:</span> ' + escapeHtml(p.description)
             );
@@ -215,11 +215,11 @@
           style: { color: '#000000', weight: 2, fillColor: '#000000', fillOpacity: 0.35 },
           onEachFeature(feature, layer) {
             const p = feature.properties;
-            const budgetFormatted = '$' + Number(p.budget).toLocaleString();
+            const budgetFormatted = p.budget != null ? '$' + Number(p.budget).toLocaleString() : 'N/A';
             layer.bindPopup(
               '<strong>' + escapeHtml(p.name) + '</strong><br>' +
               '<span style="color:#93c5fd;">Budget:</span> ' + budgetFormatted + '<br>' +
-              '<span style="color:#93c5fd;">Construction Year:</span> ' + p.construction_year + '<br>' +
+              '<span style="color:#93c5fd;">Construction Year:</span> ' + escapeHtml(String(p.construction_year)) + '<br>' +
               '<span style="color:#93c5fd;">Corridor:</span> ' + escapeHtml(p.corridor) + '<br>' +
               '<span style="color:#93c5fd;">Improvements:</span> ' + escapeHtml(p.improvements) + '<br>' +
               '<span style="color:#93c5fd;">Funding:</span> ' + escapeHtml(p.funding_source)
@@ -299,7 +299,15 @@
           },
         }).addTo(pedCrashesLayer);
       })
-      .catch(err => console.error('Failed to load crashes:', err));
+      .catch(err => {
+        console.error('Failed to load crashes:', err);
+        const banner = document.createElement('div');
+        banner.setAttribute('role', 'alert');
+        banner.style.cssText = 'position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:1000;background:#b91c1c;color:#fff;padding:8px 16px;border-radius:6px;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,0.3);';
+        banner.textContent = 'Crash data failed to load. Please refresh the page.';
+        container.style.position = 'relative';
+        container.appendChild(banner);
+      });
 
     // Layer Control
     L.control.layers(undefined, {
