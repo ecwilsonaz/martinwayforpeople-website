@@ -26,3 +26,10 @@ body {
 
 /* Smooth scroll */
 html { scroll-behavior: smooth; }
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up { animation: none; opacity: 1; }
+  .animate-pulse { animation: none; }
+  html { scroll-behavior: auto; }
+}
