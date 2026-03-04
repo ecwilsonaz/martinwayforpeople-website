@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SafetyMap from '../islands/SafetyMap.astro';
 import { siteMeta } from '../data/site-meta';
 ---
 
@@ -85,7 +86,7 @@ import { siteMeta } from '../data/site-meta';
       <h2 class="font-display text-3xl font-bold text-white mb-2">Every crash. Every bus stop. The project site.</h2>
       <p class="text-muted-light text-sm">Martin Way E corridor, 2016–2025 · Source: WSDOT, TRPC, Intercity Transit</p>
     </div>
-    <div id="safety-map" class="border border-slate-700 rounded-xl shadow-xl shadow-black/30" role="application" aria-label="Interactive map of Martin Way showing crashes, bus stops, crossing locations, and the proposed Chick-fil-A site"></div>
+    <SafetyMap />
     <div class="flex flex-wrap gap-6 justify-center mt-4">
       <span class="flex items-center gap-2 text-sm text-muted-light"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> Pedestrian crash</span>
       <span class="flex items-center gap-2 text-sm text-muted-light"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Vehicle crash</span>

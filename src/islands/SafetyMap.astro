@@ -1,0 +1,332 @@
+---
+// SafetyMap island — loads Leaflet only when scrolled into view
+// Uses IntersectionObserver for lazy loading (no framework needed)
+---
+
+<div id="safety-map" class="border border-slate-700 rounded-xl shadow-xl shadow-black/30" role="application" aria-label="Interactive map of Martin Way showing crashes, bus stops, crossing locations, and the proposed Chick-fil-A site"></div>
+
+<style>
+  #safety-map {
+    min-height: 500px;
+    height: 60vh;
+    width: 100%;
+    border-radius: 0.75rem;
+    z-index: 0;
+  }
+  /* Dark-themed Leaflet overrides */
+  :global(.leaflet-popup-content-wrapper) {
+    background: #1e293b;
+    color: #e2e8f0;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  }
+  :global(.leaflet-popup-tip) {
+    background: #1e293b;
+  }
+  :global(.leaflet-popup-content) {
+    margin: 12px 16px;
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  :global(.leaflet-popup-content strong) {
+    color: #ffffff;
+    font-weight: 600;
+  }
+  :global(.leaflet-control-layers) {
+    background: #1e293b !important;
+    color: #e2e8f0 !important;
+    border: 1px solid #334155 !important;
+    border-radius: 0.5rem !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+  }
+  :global(.leaflet-control-layers-toggle) {
+    background-color: #1e293b !important;
+    border: 1px solid #334155 !important;
+  }
+  :global(.leaflet-control-layers label) {
+    color: #e2e8f0 !important;
+  }
+  :global(.leaflet-control-zoom a) {
+    background-color: #1e293b !important;
+    color: #e2e8f0 !important;
+    border-color: #334155 !important;
+  }
+  :global(.leaflet-control-zoom a:hover) {
+    background-color: #334155 !important;
+  }
+  :global(.fatal-ped-marker div) {
+    animation: fatal-pulse 2s ease-in-out infinite;
+  }
+  @keyframes fatal-pulse {
+    0%, 100% { box-shadow: 0 0 6px 2px rgba(218, 54, 51, 0.6); }
+    50% { box-shadow: 0 0 18px 6px rgba(218, 54, 51, 0.95); }
+  }
+</style>
+
+<script>
+  async function initMap() {
+    const container = document.getElementById('safety-map');
+    if (!container || (container as any)._leafletInit) return;
+    (container as any)._leafletInit = true;
+
+    // Dynamically import Leaflet
+    const L = await import('leaflet');
+    // Import Leaflet CSS
+    await import('leaflet/dist/leaflet.css');
+
+    const map = L.map('safety-map', {
+      center: [47.048, -122.830],
+      zoom: 14,
+      scrollWheelZoom: false,
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19,
+    }).addTo(map);
+
+    const busStopsLayer = L.layerGroup().addTo(map);
+    const crossingsLayer = L.layerGroup().addTo(map);
+    const siteParcelLayer = L.layerGroup().addTo(map);
+    const safetyCorridorLayer = L.layerGroup().addTo(map);
+    const crashesLayer = L.layerGroup().addTo(map);
+    const pedCrashesLayer = L.layerGroup().addTo(map);
+
+    function escapeHtml(str: string): string {
+      if (!str) return '';
+      const div = document.createElement('div');
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
+    }
+
+    // Quote-aware CSV parser for bus_stops / crossings files
+    function parseCSV(text: string): Record<string, string>[] {
+      const lines = text.trim().split('\n');
+      const headers = lines[0].split(',').map(h => h.trim());
+      return lines.slice(1).filter(l => l.trim()).map(line => {
+        const cols: string[] = [];
+        let current = '';
+        let inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+          if (line[i] === '"') {
+            if (inQuotes && line[i + 1] === '"') { current += '"'; i++; }
+            else { inQuotes = !inQuotes; }
+          } else if (line[i] === ',' && !inQuotes) {
+            cols.push(current.trim());
+            current = '';
+          } else {
+            current += line[i];
+          }
+        }
+        cols.push(current.trim());
+        const obj: Record<string, string> = {};
+        headers.forEach((h, i) => obj[h] = cols[i] || '');
+        return obj;
+      });
+    }
+
+    // Bus Stops
+    fetch('/data/bus_stops.csv')
+      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+      .then(text => {
+        parseCSV(text).forEach(row => {
+          const lat = parseFloat(row.latitude);
+          const lng = parseFloat(row.longitude);
+          if (isNaN(lat) || isNaN(lng)) return;
+          const shelterText = row.has_shelter === 'True' ? 'Yes' : 'No';
+          const popup =
+            '<strong>' + escapeHtml(row.stop_name) + '</strong><br>' +
+            '<span style="color:#93c5fd;">Routes:</span> ' + escapeHtml(row.routes) + '<br>' +
+            '<span style="color:#93c5fd;">Type:</span> ' + escapeHtml(row.stop_type) + '<br>' +
+            '<span style="color:#93c5fd;">Shelter:</span> ' + shelterText;
+          L.circleMarker([lat, lng], {
+            radius: 7, fillColor: '#3b82f6', color: '#1e40af',
+            weight: 1.5, opacity: 1, fillOpacity: 0.85,
+          }).bindPopup(popup).addTo(busStopsLayer);
+        });
+      })
+      .catch(err => console.error('Failed to load bus_stops:', err));
+
+    // Crossings
+    fetch('/data/crossings.csv')
+      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+      .then(text => {
+        parseCSV(text).forEach(row => {
+          const lat = parseFloat(row.latitude);
+          const lng = parseFloat(row.longitude);
+          if (isNaN(lat) || isNaN(lng)) return;
+          const isTop10 = row.top_10_for_design === 'True';
+          const fillColor = isTop10 ? '#f59e0b' : '#22c55e';
+          const borderColor = isTop10 ? '#b45309' : '#166534';
+          const top10Label = isTop10
+            ? '<span style="color:#fde68a;font-weight:600;">Yes — Top 10 priority</span>'
+            : 'No';
+          const popup =
+            '<strong>' + escapeHtml(row.name) + '</strong><br>' +
+            '<span style="color:#93c5fd;">Jurisdiction:</span> ' + escapeHtml(row.jurisdiction) + '<br>' +
+            '<span style="color:#93c5fd;">Quantitative Score:</span> ' + escapeHtml(row.quantitative_score) + '<br>' +
+            '<span style="color:#93c5fd;">Top 10 for Design:</span> ' + top10Label + '<br>' +
+            '<span style="color:#93c5fd;">Description:</span> ' + escapeHtml(row.description);
+          if (isTop10) {
+            const icon = L.divIcon({
+              className: '',
+              html: '<div style="width:14px;height:14px;background:' + fillColor + ';border:2px solid ' + borderColor + ';transform:rotate(45deg);box-shadow:0 0 6px rgba(245,158,11,0.5);"></div>',
+              iconSize: [14, 14], iconAnchor: [7, 7], popupAnchor: [0, -10],
+            });
+            L.marker([lat, lng], { icon }).bindPopup(popup).addTo(crossingsLayer);
+          } else {
+            L.circleMarker([lat, lng], {
+              radius: 6, fillColor, color: borderColor,
+              weight: 1.5, opacity: 1, fillOpacity: 0.85,
+            }).bindPopup(popup).addTo(crossingsLayer);
+          }
+        });
+      })
+      .catch(err => console.error('Failed to load crossings:', err));
+
+    // CFA Project Site
+    fetch('/data/site_parcel.geojson')
+      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(geojson => {
+        L.geoJSON(geojson, {
+          style: { color: '#dc2626', weight: 2, fillColor: '#dc2626', fillOpacity: 0.2, dashArray: '6 3' },
+          onEachFeature(feature, layer) {
+            const p = feature.properties;
+            const valueFormatted = '$' + Number(p.total_value).toLocaleString();
+            layer.bindPopup(
+              '<strong>' + escapeHtml(p.address) + '</strong><br>' +
+              '<span style="color:#fca5a5;">Owner:</span> ' + escapeHtml(p.owner) + '<br>' +
+              '<span style="color:#fca5a5;">Acreage:</span> ' + p.acres + ' acres<br>' +
+              '<span style="color:#fca5a5;">Assessed Value:</span> ' + valueFormatted + '<br>' +
+              '<span style="color:#fca5a5;">Description:</span> ' + escapeHtml(p.description)
+            );
+          },
+        }).addTo(siteParcelLayer);
+      })
+      .catch(err => console.error('Failed to load site_parcel:', err));
+
+    // Safety Corridor
+    fetch('/data/safety_corridor.geojson')
+      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(geojson => {
+        L.geoJSON(geojson, {
+          style: { color: '#000000', weight: 2, fillColor: '#000000', fillOpacity: 0.35 },
+          onEachFeature(feature, layer) {
+            const p = feature.properties;
+            const budgetFormatted = '$' + Number(p.budget).toLocaleString();
+            layer.bindPopup(
+              '<strong>' + escapeHtml(p.name) + '</strong><br>' +
+              '<span style="color:#93c5fd;">Budget:</span> ' + budgetFormatted + '<br>' +
+              '<span style="color:#93c5fd;">Construction Year:</span> ' + p.construction_year + '<br>' +
+              '<span style="color:#93c5fd;">Corridor:</span> ' + escapeHtml(p.corridor) + '<br>' +
+              '<span style="color:#93c5fd;">Improvements:</span> ' + escapeHtml(p.improvements) + '<br>' +
+              '<span style="color:#93c5fd;">Funding:</span> ' + escapeHtml(p.funding_source)
+            );
+          },
+        }).addTo(safetyCorridorLayer);
+      })
+      .catch(err => console.error('Failed to load safety_corridor:', err));
+
+    // Crash Data
+    const severityColors: Record<string, string> = {
+      'Fatal': '#da3633', 'Dead at Scene': '#da3633', 'Died in Hospital': '#da3633',
+      'DIED IN HOSPITAL': '#da3633', 'Suspected Serious Injury': '#f47067',
+      'Suspected Minor Injury': '#d29922', 'Possible Injury': '#e3b341',
+      'No Apparent Injury': '#3b5f8a', 'Unknown': '#8b949e',
+    };
+
+    fetch('/data/crashes.geojson')
+      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(data => {
+        // All crashes
+        L.geoJSON(data, {
+          pointToLayer(feature, latlng) {
+            const sev = feature.properties.severity;
+            return L.circleMarker(latlng, {
+              radius: 3, fillColor: severityColors[sev] || '#3b5f8a',
+              color: 'transparent', weight: 0, fillOpacity: 0.35,
+            });
+          },
+          onEachFeature(feature, layer) {
+            const p = feature.properties;
+            const label = p.pedestrian
+              ? '<strong style="color:#f85149">\u26A0 Pedestrian crash</strong><br>'
+              : p.fatal
+                ? '<strong style="color:#da3633">\u26A0 Fatal crash</strong><br>'
+                : '';
+            const addr = p.address ? '<br><span style="color:#8b949e;font-size:11px;">' + escapeHtml(p.address) + '</span>' : '';
+            layer.bindPopup(
+              label + '<strong>' + escapeHtml(p.date) + '</strong> at ' + escapeHtml(p.time) + '<br>' +
+              '<span style="color:#93c5fd;">Severity:</span> ' + escapeHtml(p.severity) + '<br>' +
+              '<span style="color:#93c5fd;">City:</span> ' + escapeHtml(p.city) + addr
+            );
+          },
+        }).addTo(crashesLayer);
+
+        // Pedestrian & Fatal
+        L.geoJSON(data, {
+          filter(f) { return f.properties.pedestrian || f.properties.fatal; },
+          pointToLayer(feature, latlng) {
+            const p = feature.properties;
+            if (p.fatal) {
+              const size = 24;
+              const icon = L.divIcon({
+                className: 'fatal-ped-marker',
+                html: '<div style="width:' + size + 'px;height:' + size + 'px;background:#da3633;border:2px solid #fff;border-radius:50%;opacity:0.9;"></div>',
+                iconSize: [size, size], iconAnchor: [size / 2, size / 2], popupAnchor: [0, -size / 2],
+              });
+              return L.marker(latlng, { icon });
+            }
+            return L.circleMarker(latlng, {
+              radius: 8, fillColor: '#f85149', color: '#fff', weight: 2, fillOpacity: 0.9,
+            });
+          },
+          onEachFeature(feature, layer) {
+            const p = feature.properties;
+            const typeLabel = p.fatal && p.pedestrian ? 'Pedestrian killed'
+              : p.fatal ? 'Fatal crash' : 'Pedestrian struck by vehicle';
+            const addr = p.address ? '<br><span style="color:#8b949e;font-size:11px;">' + escapeHtml(p.address) + '</span>' : '';
+            layer.bindPopup(
+              '<strong style="color:' + (p.fatal ? '#da3633' : '#f85149') + '">' + typeLabel + '</strong><br>' +
+              '<strong>' + escapeHtml(p.date) + '</strong> at ' + escapeHtml(p.time) + '<br>' +
+              '<span style="color:#93c5fd;">Severity:</span> ' + escapeHtml(p.severity) + '<br>' +
+              '<span style="color:#93c5fd;">City:</span> ' + escapeHtml(p.city) + addr
+            );
+          },
+        }).addTo(pedCrashesLayer);
+      })
+      .catch(err => console.error('Failed to load crashes:', err));
+
+    // Layer Control
+    L.control.layers(undefined, {
+      'Bus Stops': busStopsLayer,
+      'Crossing Locations': crossingsLayer,
+      'Chick-fil-A Site': siteParcelLayer,
+      'Safety Project Corridor': safetyCorridorLayer,
+      'Crashes (2016\u20132025)': crashesLayer,
+      'Pedestrians & Fatalities': pedCrashesLayer,
+    }, { collapsed: false, position: 'topright' }).addTo(map);
+  }
+
+  // Lazy-load: only initialize when the map container scrolls into view
+  function observeMap() {
+    const container = document.getElementById('safety-map');
+    if (!container) return;
+    if ((container as any)._leafletInit) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          initMap();
+        }
+      });
+    }, { rootMargin: '200px' });
+
+    observer.observe(container);
+  }
+
+  observeMap();
+  document.addEventListener('astro:after-swap', observeMap);
+</script>
