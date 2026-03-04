@@ -163,10 +163,45 @@ import { siteMeta } from '../data/site-meta';
         </li>
       </ul>
 
+      <details class="group mb-6">
+        <summary class="cursor-pointer select-none inline-flex items-center gap-2 bg-white text-ink border border-border px-6 py-3 text-base font-semibold rounded hover:bg-paper transition-colors">
+          <svg class="w-4 h-4 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          Template comment &amp; tips
+        </summary>
+
+        <div class="mt-4 space-y-3">
+          <p class="text-muted text-sm">Copy and personalize before sending. Personal details carry more weight than form letters.</p>
+
+          <div class="relative bg-paper border border-border rounded-lg p-6">
+            <button type="button" data-copy-target="template-comment" aria-label="Copy comment template to clipboard" class="absolute top-3 right-3 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md bg-white border border-border text-muted hover:text-ink transition-colors">
+              <svg class="copy-icon w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              <svg class="check-icon w-3.5 h-3.5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              <span class="copy-label">Copy</span>
+            </button>
+            <div id="template-comment" class="text-sm text-muted leading-relaxed whitespace-pre-line pr-16">To the City of Olympia Hearing Examiner,
+
+My name is [Your Name] and I [live / work / commute] [near Martin Way / in the Eastside neighborhood / along the Route 62 corridor]. I am writing regarding the proposed Chick-fil-A at 4505 Martin Way E (Project 25-3357).
+
+Martin Way has the highest pedestrian fatality rate in Thurston County. Nearly half of fatal and serious collisions on this corridor involve pedestrians or cyclists. Despite this, the Traffic Impact Analysis for this project contains no pedestrian safety analysis.
+
+The city is spending $1.637 million to make Martin Way safer for pedestrians — yet this project would add 1,693 net new daily vehicle trips to the same corridor, 150 feet from a bus stop, with no evaluation of pedestrian impacts.
+
+[Pick one or more and complete in your own words:]
+- I use Martin Way to [walk / bike / catch the bus / drive to work] and I have personally [seen near-misses / felt unsafe crossing / worried about ...].
+- Adding 1,693 daily vehicle trips to this corridor without studying pedestrian impacts is [reckless / an oversight / inconsistent with the city's own safety investments].
+
+I ask that the city be required to complete a pedestrian safety analysis before this project proceeds.
+
+[Your Name]
+[Your Address or Neighborhood]</div>
+          </div>
+        </div>
+      </details>
+
       <div class="bg-green-bg border border-green-border rounded-md px-5 py-4 mb-6">
         <p class="text-green-deep text-sm leading-relaxed">
           <strong class="block mb-1">Keep comments focused on pedestrian safety.</strong>
-          The hearing examiner rules on whether the environmental review was adequate. Comments about traffic safety and the missing analysis carry the most weight.
+          The hearing examiner rules on whether the environmental review was adequate — not on corporate values or whether Olympia needs another chain restaurant. Comments about the missing pedestrian analysis carry the most weight.
         </p>
       </div>
 
