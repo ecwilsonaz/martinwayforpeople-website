@@ -34,7 +34,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </tr>
         </thead>
         <tbody class="divide-y divide-border">
-          <tr><td class="px-4 py-3 text-muted">Crash data (2016–2025)</td><td class="px-4 py-3 text-muted">WSDOT Crash Data Portal</td></tr>
+          <tr><td class="px-4 py-3 text-muted">Crash data (2015–2025)</td><td class="px-4 py-3 text-muted">WSDOT Crash Data Portal</td></tr>
           <tr><td class="px-4 py-3 text-muted">Bus stops &amp; ridership</td><td class="px-4 py-3 text-muted">Intercity Transit (GTFS &amp; public records request)</td></tr>
           <tr><td class="px-4 py-3 text-muted">Priority crossings</td><td class="px-4 py-3 text-muted">TRPC Martin Way Crossing Strategy (June 2025)</td></tr>
           <tr><td class="px-4 py-3 text-muted">Corridor study</td><td class="px-4 py-3 text-muted">TRPC Martin Way Corridor Study (October 2021)</td></tr>
@@ -50,10 +50,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <section class="mb-12">
     <h2 class="font-display text-xl font-bold mb-3">Crash data methodology</h2>
     <p class="text-muted text-base leading-relaxed mb-2">
-      Crash data was obtained from the WSDOT crash data portal for the Martin Way E corridor from 2016 through 2025. Records were geocoded and filtered to the corridor study area. Of 7,184 initial records, 444 were excluded for missing coordinates or locations outside the corridor. The final dataset contains 1,112 crash records.
+      Crash records were obtained from the <a href="https://remoteapps.wsdot.wa.gov/highwaysafety/collision/data/portal/public/" class="text-data underline">WSDOT Crash Data Portal</a> for Thurston County, 2015 through 2025. Three report types were queried for each year: total crashes, pedestrian crashes, and bicycle crashes.
+    </p>
+    <p class="text-muted text-base leading-relaxed mb-2">
+      Records were spatially filtered in two stages: first to a bounding box covering the full 7-mile Martin Way corridor with half-mile padding, then to a hand-drawn polygon tracing the Martin Way right-of-way from Pacific Avenue SE to Meridian Road/Duterrow Road. Each unique crash coordinate was reverse-geocoded via the Google Maps Geocoding API. The final dataset contains 3,198 crash records.
+    </p>
+    <p class="text-muted text-base leading-relaxed mb-2">
+      Pedestrian and bicycle crashes were identified by matching collision report numbers to WSDOT's pedestrian- and bicycle-specific datasets. Fatal crashes were identified by severity field (Dead at Scene, Died in Hospital, or Dead on Arrival). The corridor recorded 63 pedestrian crashes, 39 bicycle crashes, and 11 fatalities — seven of which involved a pedestrian or cyclist.
     </p>
     <p class="text-muted text-base leading-relaxed">
-      Pedestrian crashes were identified by collision type field. Fatal crashes were identified by severity field. Both classifications use WSDOT's standard coding.
+      Per-year crash totals were cross-validated against the Thurston Regional Planning Council's independently compiled Martin Way data (2015–2019). The two datasets agree within 7% on total crashes and are nearly identical on pedestrian, bicycle, and fatal/serious-injury counts.
     </p>
   </section>
 
