@@ -98,12 +98,12 @@
 
     function escapeHtml(str: string): string {
       if (!str) return '';
-      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
 
     // Quote-aware CSV parser for bus_stops / crossings files
     function parseCSV(text: string): Record<string, string>[] {
-      const lines = text.trim().split('\n');
+      const lines = text.trim().replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
       const headers = lines[0].split(',').map(h => h.trim());
       return lines.slice(1).filter(l => l.trim()).map(line => {
         const cols: string[] = [];
@@ -251,11 +251,13 @@
           },
           onEachFeature(feature, layer) {
             const p = feature.properties;
-            const label = p.pedestrian
-              ? '<strong style="color:#f85149">\u26A0 Pedestrian crash</strong><br>'
-              : p.fatal
-                ? '<strong style="color:#da3633">\u26A0 Fatal crash</strong><br>'
-                : '';
+            const label = p.fatal && p.pedestrian
+              ? '<strong style="color:#da3633">\u26A0 Pedestrian killed</strong><br>'
+              : p.pedestrian
+                ? '<strong style="color:#f85149">\u26A0 Pedestrian crash</strong><br>'
+                : p.fatal
+                  ? '<strong style="color:#da3633">\u26A0 Fatal crash</strong><br>'
+                  : '';
             const addr = p.address ? '<br><span style="color:#8b949e;font-size:11px;">' + escapeHtml(p.address) + '</span>' : '';
             layer.bindPopup(
               label + '<strong>' + escapeHtml(p.date) + '</strong> at ' + escapeHtml(p.time) + '<br>' +

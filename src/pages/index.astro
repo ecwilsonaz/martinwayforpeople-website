@@ -184,6 +184,7 @@ import { siteMeta } from '../data/site-meta';
         </button>
       </form>
       <p id="subscribe-status" role="status" aria-live="polite" class="mt-3 text-sm min-h-[1.25rem]"></p>
+      <p class="mt-2 text-xs text-muted">We'll only email you about the Martin Way appeal. <a href="/privacy" class="underline hover:text-ink">Privacy Policy</a></p>
     </div>
 
     <!-- Secondary: Council Email -->
@@ -237,7 +238,7 @@ import { siteMeta } from '../data/site-meta';
           <p class="text-muted text-sm">Copy and personalize before sending. Personal details carry more weight than form letters.</p>
 
           <div class="relative bg-paper border border-border rounded-lg p-6">
-            <button data-copy-target="template-council" aria-label="Copy email template to clipboard" class="absolute top-3 right-3 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md bg-white border border-border text-muted hover:text-ink transition-colors">
+            <button type="button" data-copy-target="template-council" aria-label="Copy email template to clipboard" class="absolute top-3 right-3 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md bg-white border border-border text-muted hover:text-ink transition-colors">
               <svg class="copy-icon w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
               <svg class="check-icon w-3.5 h-3.5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
               <span class="copy-label">Copy</span>
@@ -276,6 +277,7 @@ Thank you.</div>
     </p>
     <p class="text-xs text-muted mt-4">
       <a href="/about" class="text-muted hover:text-ink underline">About this site &amp; methodology</a>
+      · <a href="/privacy" class="text-muted hover:text-ink underline">Privacy</a>
       · Content: CC BY-SA 4.0 · Code: MIT
     </p>
     <p class="text-xs text-muted mt-2">This site does not use cookies, analytics, or tracking of any kind.</p>
@@ -291,6 +293,11 @@ Thank you.</div>
       const el = document.getElementById(targetId);
       if (!el) return;
       const label = btn.querySelector('.copy-label');
+      if (!navigator.clipboard?.writeText) {
+        if (label) label.textContent = 'Copy not supported';
+        setTimeout(() => { if (label) label.textContent = 'Copy'; }, 2000);
+        return;
+      }
       navigator.clipboard.writeText(el.textContent || '').then(() => {
         btn.querySelector('.copy-icon')?.classList.add('hidden');
         btn.querySelector('.check-icon')?.classList.remove('hidden');
