@@ -1,0 +1,85 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Martin Way Pedestrian Safety Improvements Project",
+        "budget": 1637000,
+        "funding_federal": 1182000,
+        "funding_local": 455000,
+        "construction_year": 2026,
+        "corridor": "Chehalis Western Trail to Sleater-Kinney Road",
+        "improvements": "Pedestrian crossings, RRFBs, median refuge islands, in-lane bus stop with separated bike lanes, shortened right turn pocket, median barriers",
+        "funding_source": "FHWA Highway Safety Improvements Program + City TBD sales tax"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -122.84305,
+              47.047399999999996
+            ],
+            [
+              -122.84205,
+              47.0475
+            ],
+            [
+              -122.84055000000001,
+              47.0476
+            ],
+            [
+              -122.83905,
+              47.04775
+            ],
+            [
+              -122.83755000000001,
+              47.04785
+            ],
+            [
+              -122.83605,
+              47.048
+            ],
+            [
+              -122.83555,
+              47.0481
+            ],
+            [
+              -122.83545,
+              47.0477
+            ],
+            [
+              -122.83595,
+              47.0476
+            ],
+            [
+              -122.83745,
+              47.04745
+            ],
+            [
+              -122.83895,
+              47.04735
+            ],
+            [
+              -122.84045,
+              47.047200000000004
+            ],
+            [
+              -122.84195,
+              47.0471
+            ],
+            [
+              -122.84295,
+              47.047
+            ],
+            [
+              -122.84305,
+              47.047399999999996
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

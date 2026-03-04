@@ -1,0 +1,18 @@
+id,name,jurisdiction,latitude,longitude,quantitative_score,top_10_for_design,description
+A,Chambers St,Olympia,47.04555,-122.8705,19,False,At Chambers St intersection
+B,Steele St,Olympia,47.04575,-122.8672,17,False,At Steele St intersection
+C,Devoe St,Olympia,47.04595,-122.8635,21,True,At Devoe St intersection
+D,Bark Store,Olympia,47.04625,-122.857,26,True,Near Bark Store business
+E,Between Mary Elder and Lilly,Olympia,47.047,-122.847,15,False,Mid-block between Mary Elder Rd and Lilly Rd
+F,Between Lilly and Chehalis Trail,Olympia,47.0473,-122.8425,19,False,Mid-block between Lilly Rd and Chehalis Western Trail
+G,Between Sleater Kinney and Kasey Keller,Olympia,47.0479,-122.8335,18,False,Mid-block between Sleater Kinney Rd and Kasey Keller Way
+H,Driveway into 4500 Martin Way manufactured housing community,Olympia,47.0483,-122.828,23,True,At driveway entrance to 4500 Martin Way mobile home park
+I,Park and Ride,Lacey,47.0494,-122.8155,15,False,Near Martin Way Park and Ride
+J,Driveway into Nisqually Trout Farms,Lacey,47.0496,-122.807,19,False,At driveway entrance to Nisqually Trout Farms
+K,Between Carpenter and Kinwood,Thurston County,47.0509,-122.794,23,True,Mid-block between Carpenter Rd and Kinwood St
+L,Food Bank (Neil St),Thurston County,47.0522,-122.785,29,True,"At Neil St, near Thurston County Food Bank"
+M,School St,Thurston County,47.0535,-122.779,23,True,At School St intersection
+N,Driveway into 7838 Martin Way manufactured housing community,Thurston County,47.0542,-122.775,25,True,At driveway entrance to 7838 Martin Way mobile home park
+O,Gerald St,Lacey,47.0577,-122.7593,22,True,At Gerald St intersection
+P,Blackhawk Ln,Lacey,47.0591,-122.7524,20,True,At Blackhawk Ln intersection
+Q,Copper Wood Ln,Lacey,47.0608,-122.7437,23,True,At Copper Wood Ln intersection

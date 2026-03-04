@@ -1,0 +1,22 @@
+stop_id,stop_name,latitude,longitude,routes,stop_type,has_shelter
+441,Martin Way at Pattison St [wb],47.046359,-122.859833,"60, 62A, 62B, ONE",Shelter,True
+459,Martin Way at Pattison St [eb],47.046188,-122.858504,"60, 62A, 62B, ONE",Shelter,True
+460,3025 Martin Way [eb],47.046424,-122.855179,"60, 62A, 62B",Pole,False
+486,3335 Martin Way  [eb],47.04679,-122.850342,"62A, 62B",Shelter,True
+529,Martin Way at Mary Elder Rd [wb],47.047015,-122.849166,"62A, 62B",Pole,False
+528,Martin Way at Lilly Rd [wb],47.047298,-122.845215,"62A, 62B, ONE",Shelter,True
+487,Martin Way at Lilly Rd [eb],47.047175,-122.843498,"60, 62A, 62B, ONE",Shelter,True
+527,3700 Martin Way [wb],47.047488,-122.842046,"60, 62A, 62B",Light Mounted,False
+488,3775 Martin Way [eb],47.047394,-122.840538,"60, 62A, 62B",Shelter,True
+526,3924 Martin Way [wb],47.047728,-122.838051,"60, 62A, 62B",Shelter,True
+489,Martin Way at Sleater Kinney [eb],47.047698,-122.835853,"60, 62A, 62B, ONE",Shelter,True
+525,Martin Way at Sleater Kinney Rd [wb],47.047955,-122.835564,"60, 62A, 62B",Shelter,True
+524,Martin Way Station [wb],47.048237,-122.831253,"62A, 62B, 65, ONE",Pole,False
+491,Martin Way at College St [eb],47.048359,-122.825928,"62A, 62B, 65, ONE",Shelter,True
+523,Martin Way at College St [wb],47.048573,-122.825385,"62A, 62B, 65",Shelter,True
+1008,College St at Martin Way [sb],47.047369,-122.823373,610,Pole,False
+1036,Martin Way at I-5 [eb],47.048858,-122.817879,"610, 62A, 62B, 65",Pole,False
+1076,Martin Way Park & Ride Flyer Stop,47.049626,-122.816731,600,Transfer Station,True
+795,Martin Way Park & Ride,47.04987,-122.815124,"600, ONE",Transfer Station,True
+522,Martin Way P&R [wb],47.049297,-122.814918,"610, 62A, 62B, 65",Shelter,True
+521,Martin Way at Desmond Dr [wb],47.049591,-122.810698,"62A, 62B, 65",Shelter,True
