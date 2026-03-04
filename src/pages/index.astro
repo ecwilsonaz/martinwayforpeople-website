@@ -73,18 +73,18 @@ import { siteMeta } from '../data/site-meta';
     In February 2026, the City of Olympia approved a new Chick-fil-A at 4505 Martin Way E. The project will add 1,693 vehicle trips per day to a four-lane undivided arterial. There are no marked pedestrian crossings near the site.
   </p>
   <p class="text-muted text-lg leading-relaxed mb-4">
-    <a href="https://ci-olympia-wa.smartgovcommunity.com/Blob/94c1d95e-0e0d-46c3-8836-eac6b7eb1289" class="text-muted underline hover:text-ink">The traffic study</a> analyzes vehicle delay at five intersections. It runs about 90 pages. It contains no pedestrian counts. No pedestrian level-of-service analysis. No assessment of how 1,693 new daily trips affect people who walk along and cross Martin Way.
+    <a href="https://ci-olympia-wa.smartgovcommunity.com/Blob/94c1d95e-0e0d-46c3-8836-eac6b7eb1289" class="text-muted underline hover:text-ink" target="_blank" rel="noopener">The traffic study<span class="sr-only">(opens in new tab)</span></a> analyzes vehicle delay at five intersections. It runs about 90 pages. It contains no pedestrian counts. No pedestrian level-of-service analysis. No assessment of how 1,693 new daily trips affect people who walk along and cross Martin Way.
   </p>
 
   <div class="bg-danger-light border-l-4 border-danger rounded-r-lg px-7 py-6 my-8">
     <p class="text-danger-dark text-base">
-      The <a href="https://www.trpc.org/martinway" class="text-danger-dark underline hover:text-ink">Thurston Regional Planning Council</a> identified the project site as one of only <strong class="text-ink">10 priority locations</strong> for new pedestrian crossings along the entire 7-mile corridor. The traffic study does not reference this finding.
+      The <a href="https://www.trpc.org/martinway" class="text-danger-dark underline hover:text-ink" target="_blank" rel="noopener">Thurston Regional Planning Council<span class="sr-only">(opens in new tab)</span></a> identified the project site as one of only <strong>10 priority locations</strong> for new pedestrian crossings along the entire 7-mile corridor. The traffic study does not reference this finding.
     </p>
   </div>
 
   <div class="bg-danger-light border-l-4 border-danger rounded-r-lg px-7 py-6 my-8">
     <p class="text-danger-dark text-base">
-      The City's <a href="https://www.olympiawa.gov/services/transportation/index.php" class="text-danger-dark underline hover:text-ink">Capital Facilities Plan</a> programs $1.637 million for pedestrian safety on Martin Way — enhanced crosswalks and pedestrian-actuated signals between Pattison Street and Sleater-Kinney Road. The improvement zone ends half a mile west of the project site. The traffic study does not assess how 1,693 new daily trips affect the corridor the City is spending public money to make safer.
+      The City's <a href="https://www.olympiawa.gov/services/transportation/index.php" class="text-danger-dark underline hover:text-ink" target="_blank" rel="noopener">Capital Facilities Plan<span class="sr-only">(opens in new tab)</span></a> programs $1.637 million for pedestrian safety on Martin Way — enhanced crosswalks and pedestrian-actuated signals between Pattison Street and Sleater-Kinney Road. The improvement zone ends half a mile west of the project site. The traffic study does not assess how 1,693 new daily trips affect the corridor the City is spending public money to make safer.
     </p>
   </div>
 
@@ -103,7 +103,7 @@ import { siteMeta } from '../data/site-meta';
     </div>
     <SafetyMap />
     <div class="flex flex-wrap gap-6 justify-center mt-4">
-      <span class="flex items-center gap-2 text-sm text-muted-light"><span class="w-2.5 h-2.5 rounded-full bg-[#f85149]" aria-hidden="true"></span> Pedestrian crash</span>
+      <span class="flex items-center gap-2 text-sm text-muted-light"><span class="w-2.5 h-2.5 rounded-full bg-[#f85149]" aria-hidden="true"></span> Pedestrian/cyclist crash</span>
       <span class="flex items-center gap-2 text-sm text-muted-light"><span class="w-2.5 h-2.5 rounded-full bg-[#da3633] ring-2 ring-white" aria-hidden="true"></span> Fatal crash</span>
       <span class="flex items-center gap-2 text-sm text-muted-light"><span class="w-2.5 h-2.5 rounded-full bg-[#3b5f8a] opacity-50" aria-hidden="true"></span> Vehicle crash</span>
       <span class="flex items-center gap-2 text-sm text-muted-light"><span class="w-2.5 h-2.5 rounded-full bg-[#3b82f6]" aria-hidden="true"></span> Bus stop</span>
@@ -277,10 +277,10 @@ Thank you.</div>
     <p class="text-sm text-muted">Built by residents of Olympia's eastside. Not affiliated with any political organization.</p>
     <p class="text-sm text-muted mt-2">
       Data from
-      <a href="https://wsdot.wa.gov/about/transportation-data/crash-data" class="text-muted hover:text-ink underline">WSDOT</a>,
-      <a href="https://www.trpc.org" class="text-muted hover:text-ink underline">TRPC</a>,
-      <a href="https://www.intercitytransit.com" class="text-muted hover:text-ink underline">Intercity Transit</a>, and
-      <a href="https://www.olympiawa.gov" class="text-muted hover:text-ink underline">City of Olympia</a> public records.
+      <a href="https://wsdot.wa.gov/about/transportation-data/crash-data" class="text-muted hover:text-ink underline" target="_blank" rel="noopener">WSDOT<span class="sr-only">(opens in new tab)</span></a>,
+      <a href="https://www.trpc.org" class="text-muted hover:text-ink underline" target="_blank" rel="noopener">TRPC<span class="sr-only">(opens in new tab)</span></a>,
+      <a href="https://www.intercitytransit.com" class="text-muted hover:text-ink underline" target="_blank" rel="noopener">Intercity Transit<span class="sr-only">(opens in new tab)</span></a>, and
+      <a href="https://www.olympiawa.gov" class="text-muted hover:text-ink underline" target="_blank" rel="noopener">City of Olympia<span class="sr-only">(opens in new tab)</span></a> public records.
     </p>
     <p class="text-xs text-muted mt-4">
       <a href="/about" class="text-muted hover:text-ink underline">About this site &amp; methodology</a>
@@ -323,6 +323,16 @@ Thank you.</div>
 </script>
 
 <script>
+  // Show success message for non-JS form redirect (?subscribed=1)
+  if (new URLSearchParams(location.search).get('subscribed') === '1') {
+    const status = document.getElementById('subscribe-status') as HTMLParagraphElement | null;
+    if (status) {
+      status.textContent = "You're signed up! We'll notify you when the comment window opens.";
+      status.classList.add('text-green-deep');
+    }
+    history.replaceState(null, '', location.pathname + location.hash);
+  }
+
   const form = document.getElementById('subscribe-form') as HTMLFormElement | null;
   if (form) {
     const input = form.querySelector('input[name="email"]') as HTMLInputElement;

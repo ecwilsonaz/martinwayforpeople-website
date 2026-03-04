@@ -35,9 +35,15 @@ async function sendNotification(env: Env, email: string): Promise<void> {
 export const POST: APIRoute = async ({ request, locals }) => {
   const { env, ctx } = locals.runtime;
 
-  // Origin check — require header and use exact matching
+  // CSRF: check Origin header, fall back to Referer for browsers that strip Origin
   const origin = request.headers.get('origin') || '';
-  if (origin !== PROD_ORIGIN && !LOCALHOST_RE.test(origin)) {
+  const referer = request.headers.get('referer') || '';
+  const hasValidOrigin = origin === PROD_ORIGIN || LOCALHOST_RE.test(origin);
+  let hasValidReferer = false;
+  if (referer) {
+    try { hasValidReferer = referer.startsWith(PROD_ORIGIN) || LOCALHOST_RE.test(new URL(referer).origin); } catch {}
+  }
+  if (!hasValidOrigin && !hasValidReferer) {
     return new Response(
       JSON.stringify({ ok: false, error: 'Forbidden' }),
       { status: 403, headers: { 'Content-Type': 'application/json' } },
@@ -59,12 +65,19 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
   } else {
-    const form = await request.formData();
-    email = (form.get('email')?.toString() || '').trim().toLowerCase();
+    try {
+      const form = await request.formData();
+      email = (form.get('email')?.toString() || '').trim().toLowerCase();
+    } catch {
+      return new Response(
+        JSON.stringify({ ok: false, error: 'Invalid request body.' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } },
+      );
+    }
   }
 
   // Validate
-  if (!email || !EMAIL_RE.test(email)) {
+  if (!email || email.length > 254 || !EMAIL_RE.test(email)) {
     return new Response(
       JSON.stringify({ ok: false, error: 'Please enter a valid email address.' }),
       { status: 400, headers: { 'Content-Type': 'application/json' } },
@@ -82,27 +95,26 @@ export const POST: APIRoute = async ({ request, locals }) => {
   const ip = request.headers.get('cf-connecting-ip') || 'unknown';
   const ipHash = await hashIP(ip, env.IP_HASH_SALT);
 
-  // Rate limit: max 5 signups per IP per hour
-  const recent = await env.DB.prepare(
-    "SELECT COUNT(*) as cnt FROM subscribers WHERE ip_hash = ? AND created_at > datetime('now', '-1 hour')"
-  ).bind(ipHash).first<{ cnt: number }>();
-  if (recent && recent.cnt >= 5) {
-    return new Response(
-      JSON.stringify({ ok: false, error: 'Too many requests. Please try again later.' }),
-      { status: 429, headers: { 'Content-Type': 'application/json' } },
-    );
-  }
-
-  // Insert into D1 — return identical message for new and duplicate signups
+  // Rate-limited insert: atomic check-and-insert via SQL subquery to avoid TOCTOU race
   const successMsg = "You're signed up! We'll notify you when the comment window opens.";
   const successRedirect = new URL('/', request.url);
   successRedirect.searchParams.set('subscribed', '1');
   successRedirect.hash = 'action';
 
   try {
-    await env.DB.prepare(
-      'INSERT INTO subscribers (email, ip_hash) VALUES (?, ?)'
-    ).bind(email, ipHash).run();
+    const result = await env.DB.prepare(
+      `INSERT INTO subscribers (email, ip_hash)
+       SELECT ?, ?
+       WHERE (SELECT COUNT(*) FROM subscribers WHERE ip_hash = ? AND created_at > datetime('now', '-1 hour')) < 5`
+    ).bind(email, ipHash, ipHash).run();
+
+    if (result.meta.changes === 0) {
+      // Rate limit exceeded — the WHERE clause prevented the insert
+      return new Response(
+        JSON.stringify({ ok: false, error: 'Too many requests. Please try again later.' }),
+        { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': '3600' } },
+      );
+    }
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : '';
     if (msg.includes('UNIQUE constraint failed')) {

@@ -231,7 +231,7 @@
 
     // Crash Data
     const severityColors: Record<string, string> = {
-      'dead at scene': '#da3633', 'died in hospital': '#da3633',
+      'dead at scene': '#da3633', 'died in hospital': '#da3633', 'dead on arrival': '#da3633',
       'suspected serious injury': '#f47067',
       'suspected minor injury': '#d29922', 'possible injury': '#e3b341',
       'no apparent injury': '#3b5f8a', 'unknown': '#8b949e',
@@ -253,23 +253,27 @@
             const p = feature.properties;
             const label = p.fatal && p.pedestrian
               ? '<strong style="color:#da3633">\u26A0 Pedestrian killed</strong><br>'
-              : p.pedestrian
-                ? '<strong style="color:#f85149">\u26A0 Pedestrian crash</strong><br>'
-                : p.fatal
-                  ? '<strong style="color:#da3633">\u26A0 Fatal crash</strong><br>'
-                  : '';
+              : p.fatal && p.bicycle
+                ? '<strong style="color:#da3633">\u26A0 Cyclist killed</strong><br>'
+                : p.pedestrian
+                  ? '<strong style="color:#f85149">\u26A0 Pedestrian crash</strong><br>'
+                  : p.bicycle
+                    ? '<strong style="color:#f85149">\u26A0 Cyclist crash</strong><br>'
+                    : p.fatal
+                      ? '<strong style="color:#da3633">\u26A0 Fatal crash</strong><br>'
+                      : '';
             const addr = p.address ? '<br><span style="color:#8b949e;font-size:11px;">' + escapeHtml(p.address) + '</span>' : '';
             layer.bindPopup(
               label + '<strong>' + escapeHtml(p.date) + '</strong> at ' + escapeHtml(p.time) + '<br>' +
               '<span style="color:#93c5fd;">Severity:</span> ' + escapeHtml(p.severity) + '<br>' +
-              '<span style="color:#93c5fd;">City:</span> ' + escapeHtml(p.city) + addr
+              '<span style="color:#93c5fd;">City:</span> ' + escapeHtml(p.city && p.city !== "'" ? p.city : 'Unknown') + addr
             );
           },
         }).addTo(crashesLayer);
 
         // Pedestrian & Fatal
         L.geoJSON(data, {
-          filter(f) { return f.properties.pedestrian || f.properties.fatal; },
+          filter(f) { return f.properties.pedestrian || f.properties.bicycle || f.properties.fatal; },
           pointToLayer(feature, latlng) {
             const p = feature.properties;
             if (p.fatal) {
@@ -288,13 +292,16 @@
           onEachFeature(feature, layer) {
             const p = feature.properties;
             const typeLabel = p.fatal && p.pedestrian ? 'Pedestrian killed'
-              : p.fatal ? 'Fatal crash' : 'Pedestrian struck by vehicle';
+              : p.fatal && p.bicycle ? 'Cyclist killed'
+              : p.fatal ? 'Fatal crash'
+              : p.pedestrian ? 'Pedestrian struck by vehicle'
+              : 'Cyclist struck by vehicle';
             const addr = p.address ? '<br><span style="color:#8b949e;font-size:11px;">' + escapeHtml(p.address) + '</span>' : '';
             layer.bindPopup(
               '<strong style="color:' + (p.fatal ? '#da3633' : '#f85149') + '">' + typeLabel + '</strong><br>' +
               '<strong>' + escapeHtml(p.date) + '</strong> at ' + escapeHtml(p.time) + '<br>' +
               '<span style="color:#93c5fd;">Severity:</span> ' + escapeHtml(p.severity) + '<br>' +
-              '<span style="color:#93c5fd;">City:</span> ' + escapeHtml(p.city) + addr
+              '<span style="color:#93c5fd;">City:</span> ' + escapeHtml(p.city && p.city !== "'" ? p.city : 'Unknown') + addr
             );
           },
         }).addTo(pedCrashesLayer);
@@ -303,7 +310,7 @@
         console.error('Failed to load crashes:', err);
         const banner = document.createElement('div');
         banner.setAttribute('role', 'alert');
-        banner.style.cssText = 'position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:1000;background:#b91c1c;color:#fff;padding:8px 16px;border-radius:6px;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,0.3);';
+        banner.style.cssText = 'position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:9999;background:#b91c1c;color:#fff;padding:8px 16px;border-radius:6px;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,0.3);';
         banner.textContent = 'Crash data failed to load. Please refresh the page.';
         container.style.position = 'relative';
         container.appendChild(banner);
@@ -316,7 +323,7 @@
       'Chick-fil-A Site': siteParcelLayer,
       'Safety Project Corridor': safetyCorridorLayer,
       'Crashes (2015\u20132025)': crashesLayer,
-      'Pedestrians & Fatalities': pedCrashesLayer,
+      'Pedestrians, Cyclists & Fatalities': pedCrashesLayer,
     }, { collapsed: false, position: 'topright' }).addTo(map);
   }
 

@@ -34,13 +34,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </tr>
         </thead>
         <tbody class="divide-y divide-border">
-          <tr><td class="px-4 py-3 text-muted">Crash data (2015–2025)</td><td class="px-4 py-3 text-muted"><a href="https://remoteapps.wsdot.wa.gov/highwaysafety/collision/data/portal/public/" class="text-data underline">WSDOT Crash Data Portal</a></td></tr>
+          <tr><td class="px-4 py-3 text-muted">Crash data (2015–2025)</td><td class="px-4 py-3 text-muted"><a href="https://remoteapps.wsdot.wa.gov/highwaysafety/collision/data/portal/public/" class="text-data underline" target="_blank" rel="noopener">WSDOT Crash Data Portal<span class="sr-only">(opens in new tab)</span></a></td></tr>
           <tr><td class="px-4 py-3 text-muted">Bus stops &amp; ridership</td><td class="px-4 py-3 text-muted">Intercity Transit (schedule data &amp; public records request)</td></tr>
-          <tr><td class="px-4 py-3 text-muted">Priority crossings</td><td class="px-4 py-3 text-muted"><a href="https://www.trpc.org/martinway" class="text-data underline">TRPC Martin Way Crossing Strategy (June 2025)</a></td></tr>
-          <tr><td class="px-4 py-3 text-muted">Corridor study</td><td class="px-4 py-3 text-muted"><a href="https://www.trpc.org/DocumentCenter/View/8937" class="text-data underline">TRPC Martin Way Corridor Study (October 2021)</a></td></tr>
+          <tr><td class="px-4 py-3 text-muted">Priority crossings</td><td class="px-4 py-3 text-muted"><a href="https://www.trpc.org/martinway" class="text-data underline" target="_blank" rel="noopener">TRPC Martin Way Crossing Strategy (June 2025)<span class="sr-only">(opens in new tab)</span></a></td></tr>
+          <tr><td class="px-4 py-3 text-muted">Corridor study</td><td class="px-4 py-3 text-muted"><a href="https://www.trpc.org/DocumentCenter/View/8937" class="text-data underline" target="_blank" rel="noopener">TRPC Martin Way Corridor Study (October 2021)<span class="sr-only">(opens in new tab)</span></a></td></tr>
           <tr><td class="px-4 py-3 text-muted">Project site boundary</td><td class="px-4 py-3 text-muted">Thurston County GeoData</td></tr>
-          <tr><td class="px-4 py-3 text-muted">Safety corridor</td><td class="px-4 py-3 text-muted"><a href="https://www.olympiawa.gov/services/transportation/index.php" class="text-data underline">City of Olympia Capital Facilities Plan</a></td></tr>
-          <tr><td class="px-4 py-3 text-muted">Traffic Impact Analysis</td><td class="px-4 py-3 text-muted"><a href="https://ci-olympia-wa.smartgovcommunity.com/Blob/94c1d95e-0e0d-46c3-8836-eac6b7eb1289" class="text-data underline">Transportation Engineering NorthWest (TENW), June 2, 2025</a> (applicant-prepared)</td></tr>
+          <tr><td class="px-4 py-3 text-muted">Safety corridor</td><td class="px-4 py-3 text-muted"><a href="https://www.olympiawa.gov/services/transportation/index.php" class="text-data underline" target="_blank" rel="noopener">City of Olympia Capital Facilities Plan<span class="sr-only">(opens in new tab)</span></a></td></tr>
+          <tr><td class="px-4 py-3 text-muted">Traffic Impact Analysis</td><td class="px-4 py-3 text-muted"><a href="https://ci-olympia-wa.smartgovcommunity.com/Blob/94c1d95e-0e0d-46c3-8836-eac6b7eb1289" class="text-data underline" target="_blank" rel="noopener">Transportation Engineering NorthWest (TENW), June 2, 2025<span class="sr-only">(opens in new tab)</span></a> (applicant-prepared)</td></tr>
           <tr><td class="px-4 py-3 text-muted">SEPA documents</td><td class="px-4 py-3 text-muted">City of Olympia Community Planning &amp; Economic Development, Project No. 25-3357</td></tr>
         </tbody>
       </table>
@@ -50,7 +50,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <section class="mb-12">
     <h2 class="font-display text-xl font-bold mb-3">Crash data methodology</h2>
     <p class="text-muted text-base leading-relaxed mb-2">
-      Crash data was obtained from the <a href="https://remoteapps.wsdot.wa.gov/highwaysafety/collision/data/portal/public/" class="text-data underline">WSDOT Crash Data Portal</a> for Thurston County from 2015 through 2025. Three report types were queried: Total Crashes, Pedestrian Crashes, and Bicycle Crashes. Records were spatially filtered to the Martin Way corridor using a bounding box and then a manually drawn corridor polygon, and reverse-geocoded via the Google Maps Geocoding API. The final dataset contains 3,198 crash records. Per-year crash rates were cross-validated against TRPC's independently compiled data for the same corridor and period (2015–2019) and agree within 7%.
+      Crash data was obtained from the <a href="https://remoteapps.wsdot.wa.gov/highwaysafety/collision/data/portal/public/" class="text-data underline" target="_blank" rel="noopener">WSDOT Crash Data Portal<span class="sr-only">(opens in new tab)</span></a> for Thurston County from 2015 through 2025. Three report types were queried: Total Crashes, Pedestrian Crashes, and Bicycle Crashes. Records were spatially filtered to the Martin Way corridor using a bounding box and then a manually drawn corridor polygon, and reverse-geocoded via the Google Maps Geocoding API. The final dataset contains 3,198 crash records. Per-year crash rates were cross-validated against TRPC's independently compiled data for the same corridor and period (2015–2019) and agree within 7%.
     </p>
     <p class="text-muted text-base leading-relaxed">
       Pedestrian and bicycle crashes were identified by matching collision report numbers against WSDOT's pedestrian and bicycle report types. Fatal crashes were identified by the severity field. Full methodology is documented in the exhibit filed with the appeal.
@@ -60,8 +60,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <section>
     <h2 class="font-display text-xl font-bold mb-3">License</h2>
     <p class="text-muted text-base leading-relaxed">
-      Content is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="text-data underline">CC BY-SA 4.0</a>.
-      Code is licensed under the <a href="https://opensource.org/licenses/MIT" class="text-data underline">MIT License</a>.
+      Content is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="text-data underline" target="_blank" rel="noopener">CC BY-SA 4.0<span class="sr-only">(opens in new tab)</span></a>.
+      Code is licensed under the <a href="https://opensource.org/licenses/MIT" class="text-data underline" target="_blank" rel="noopener">MIT License<span class="sr-only">(opens in new tab)</span></a>.
     </p>
   </section>
 </main>

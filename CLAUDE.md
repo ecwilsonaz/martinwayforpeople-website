@@ -23,7 +23,7 @@ No test runner, linter, or formatter is configured.
 
 ### Source Layout
 
-- `src/pages/` — Routes: `index.astro` (landing), `about.astro` (methodology)
+- `src/pages/` — Routes: `index.astro` (landing), `about.astro` (methodology), `privacy.astro` (privacy policy)
 - `src/layouts/BaseLayout.astro` — Shared HTML shell with SEO meta tags, Google Fonts, OG/Twitter cards
 - `src/islands/SafetyMap.astro` — The only interactive component. Lazy-loads Leaflet via IntersectionObserver when scrolled into view. Fetches GeoJSON/CSV from `public/data/` at runtime.
 - `src/data/` — TypeScript constants: `site-meta.ts` (site name, URL, OG image)
@@ -59,4 +59,4 @@ No test runner, linter, or formatter is configured.
 - **Skip navigation**: BaseLayout includes a skip-to-content link targeting `#main-content`.
 - **Reduced motion**: `global.css` includes a `prefers-reduced-motion: reduce` query that disables fade-up animations, pulse, and smooth scroll.
 - **Decorative elements**: SVG icons and status dots use `aria-hidden="true"`. The SafetyMap has `role="application"` with a descriptive `aria-label`.
-- **External links**: Links opening new tabs include `(opens in new tab)` screen-reader text.
+- **External links**: All external links use `target="_blank" rel="noopener"` and include `<span class="sr-only">(opens in new tab)</span>` screen-reader text.

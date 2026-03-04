@@ -6,7 +6,7 @@ interface Env {
   DB: D1Database;
   RESEND_API_KEY?: string;
   NOTIFY_EMAIL?: string;
-  IP_HASH_SALT?: string;
+  IP_HASH_SALT: string;
 }
 
 declare namespace App {
