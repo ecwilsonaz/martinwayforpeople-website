@@ -9,7 +9,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 >
 
 <main id="main-content" class="max-w-3xl mx-auto px-6 py-20">
-  <a href="/" class="text-sm text-muted hover:text-ink underline mb-8 inline-block">← Back to main page</a>
+  <a href="/" class="text-sm text-muted hover:text-ink underline mb-8 inline-block py-2">← Back to main page</a>
 
   <h1 class="font-display text-3xl font-bold mb-8">About This Site</h1>
 
@@ -25,8 +25,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   <section class="mb-12">
     <h2 class="font-display text-xl font-bold mb-3">Data sources</h2>
-    <div class="border border-border rounded-lg overflow-hidden">
-      <table class="w-full text-sm">
+    <div class="border border-border rounded-lg overflow-x-auto">
+      <table class="w-full text-sm min-w-[28rem]">
         <thead class="bg-paper-warm">
           <tr>
             <th class="text-left px-4 py-3 font-semibold text-ink">Dataset</th>
