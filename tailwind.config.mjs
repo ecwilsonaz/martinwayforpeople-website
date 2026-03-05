@@ -10,10 +10,12 @@ export default {
         data: { DEFAULT: '#1e40af', light: '#eff6ff' },
         muted: { DEFAULT: '#475569', light: '#94a3b8' },
         border: '#d6d0c4',
+        // Note: this shadows Tailwind's default green-* palette (intentional; we only use custom greens)
         green: { deep: '#166534', bg: '#f0fdf4', border: '#15803d' },
       },
       fontFamily: {
         display: ['"Source Serif 4"', 'Georgia', 'serif'],
+        // body font is set directly in global.css; this token is available for class use
         body: ['"IBM Plex Sans"', 'system-ui', 'sans-serif'],
       },
     }

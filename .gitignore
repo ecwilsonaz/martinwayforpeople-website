@@ -5,3 +5,4 @@ dist/
 .dev.vars
 .wrangler/
 COPY.md
+wsdot-martin-way-geocoded.csv

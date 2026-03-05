@@ -3,6 +3,7 @@ import tailwind from '@astrojs/tailwind';
 import cloudflare from '@astrojs/cloudflare';
 
 export default defineConfig({
+  // Static output with Cloudflare adapter; subscribe.ts uses prerender=false for server-side execution
   output: 'static',
   integrations: [
     tailwind({ applyBaseStyles: false }),

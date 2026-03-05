@@ -99,7 +99,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
   const successMsg = "You're signed up! We'll notify you when the comment window opens.";
   const successRedirect = new URL('/', request.url);
   successRedirect.searchParams.set('subscribed', '1');
-  successRedirect.hash = 'action';
+  // Note: hash fragments are not preserved through HTTP 303 redirects;
+  // the client-side script in index.astro handles scrolling to #action.
 
   try {
     const result = await env.DB.prepare(

@@ -36,7 +36,10 @@ def convert():
             # Extract YYYY-MM-DD from ISO datetime like "2015-09-22T00:00:00"
             date = full_date[:10] if full_date else ""
 
-            city = row["CityName"].strip() or row.get("_geo_city", "").strip()
+            city_raw = row["CityName"].strip()
+            geo_city = row.get("_geo_city", "").strip()
+            # WSDOT uses "'" as a sentinel for unincorporated areas
+            city = city_raw if city_raw and city_raw != "'" else (geo_city or "Unincorporated")
 
             feature = {
                 "type": "Feature",
@@ -51,6 +54,7 @@ def convert():
                     "year": int(row["_fetch_year"]),
                     "severity": severity,
                     "pedestrian": row["_is_pedestrian"].strip() == "1",
+                    "bicycle": row["_is_bicycle"].strip() == "1",
                     "fatal": severity in FATAL_SEVERITIES,
                     "city": city,
                     "address": row["_geo_address"].strip(),

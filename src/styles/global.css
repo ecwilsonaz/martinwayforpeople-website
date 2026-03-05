@@ -63,6 +63,6 @@ html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-up { animation: none; opacity: 1; }
   .animate-pulse { animation: none; }
-  .animate-spin { animation: none; display: none; }
+  .animate-spin { animation: none; }
   html { scroll-behavior: auto; }
 }

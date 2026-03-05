@@ -73,6 +73,7 @@
     if (!container || (container as any)._leafletInit) return;
     (container as any)._leafletInit = true;
 
+    try {
     // Dynamically import Leaflet
     const L = await import('leaflet');
     // Import Leaflet CSS
@@ -101,7 +102,9 @@
       return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
 
-    // Quote-aware CSV parser for bus_stops / crossings files
+    // Quote-aware CSV parser for bus_stops / crossings files.
+    // Limitation: does not handle newlines embedded within quoted fields (RFC 4180).
+    // Current data files do not contain embedded newlines, so this is safe.
     function parseCSV(text: string): Record<string, string>[] {
       const lines = text.trim().replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
       const headers = lines[0].split(',').map(h => h.trim());
@@ -325,6 +328,12 @@
       'Crashes (2015\u20132025)': crashesLayer,
       'Pedestrians, Cyclists & Fatalities': pedCrashesLayer,
     }, { collapsed: false, position: 'topright' }).addTo(map);
+    } catch (err) {
+      console.error('Map initialization failed:', err);
+      if (container) {
+        container.innerHTML = '<p style="padding:2rem;text-align:center;color:#94a3b8;">Map could not be loaded. Please refresh the page or check your connection.</p>';
+      }
+    }
   }
 
   // Lazy-load: only initialize when the map container scrolls into view
