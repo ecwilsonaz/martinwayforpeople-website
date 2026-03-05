@@ -74,7 +74,7 @@ import { siteMeta } from '../data/site-meta';
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
     <div>
       <p class="text-xs font-semibold tracking-[0.08em] uppercase text-muted mb-3">All crashes on Martin Way</p>
-      <svg viewBox="0 0 286 120" xmlns="http://www.w3.org/2000/svg" class="w-full" role="img" aria-label="Bar chart showing total crashes on Martin Way declining from 334 in 2015 to 223 in 2025">
+      <svg viewBox="0 0 286 158" xmlns="http://www.w3.org/2000/svg" class="w-full" role="img" aria-label="Bar chart showing total crashes on Martin Way declining from 334 in 2015 to 223 in 2025">
         <line x1="0" y1="100" x2="286" y2="100" stroke="#d6d0c4" stroke-width="1"/>
         <g fill="#857f79">
           <rect x="4" y="20.7" width="18" height="79.3" rx="2"/>
@@ -102,24 +102,21 @@ import { siteMeta } from '../data/site-meta';
           <text x="247" y="115">'24</text>
           <text x="273" y="115">'25</text>
         </g>
+        <!-- Group 1: 2015–19 -->
+        <path d="M4,123 L4,126 L126,126 L126,123" fill="none" stroke="#d6d0c4" stroke-width="1"/>
+        <text x="65" y="140" text-anchor="middle" fill="#1a1a1a" font-family="'Source Serif 4',Georgia,serif" font-size="15" font-weight="700">346</text>
+        <text x="65" y="149" text-anchor="middle" fill="#475569" font-family="'IBM Plex Sans',system-ui,sans-serif" font-size="7.5">avg/yr · 2015–19</text>
+        <!-- Group 2: 2020–25 -->
+        <path d="M134,123 L134,126 L282,126 L282,123" fill="none" stroke="#d6d0c4" stroke-width="1"/>
+        <text x="208" y="140" text-anchor="middle" fill="#1a1a1a" font-family="'Source Serif 4',Georgia,serif" font-size="15" font-weight="700">245</text>
+        <text x="208" y="149" text-anchor="middle" fill="#475569" font-family="'IBM Plex Sans',system-ui,sans-serif" font-size="7.5">avg/yr · 2020–25</text>
+        <text x="208" y="157" text-anchor="middle" fill="#166534" font-family="'IBM Plex Sans',system-ui,sans-serif" font-size="9" font-weight="600">▼ 29%</text>
       </svg>
-      <div class="flex items-center gap-2 mt-3">
-        <div>
-          <p class="font-display text-xl font-bold leading-none">346</p>
-          <p class="text-[10px] text-muted leading-tight">avg/yr<br>2015–19</p>
-        </div>
-        <svg class="w-4 h-4 text-muted flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        <div>
-          <p class="font-display text-xl font-bold leading-none">245</p>
-          <p class="text-[10px] text-muted leading-tight">avg/yr<br>2020–25</p>
-        </div>
-        <p class="text-xs font-semibold text-green-deep ml-1">▼ 29%</p>
-      </div>
     </div>
 
     <div>
       <p class="text-xs font-semibold tracking-[0.08em] uppercase text-danger mb-3">Pedestrians struck by vehicles</p>
-      <svg viewBox="0 0 286 120" xmlns="http://www.w3.org/2000/svg" class="w-full" role="img" aria-label="Bar chart showing pedestrian crashes on Martin Way rising from 3 in 2015 to 10 in 2025, the highest year in the past decade">
+      <svg viewBox="0 0 286 158" xmlns="http://www.w3.org/2000/svg" class="w-full" role="img" aria-label="Bar chart showing pedestrian crashes on Martin Way rising from 3 in 2015 to 10 in 2025, the highest year in the past decade">
         <line x1="0" y1="100" x2="286" y2="100" stroke="#d6d0c4" stroke-width="1"/>
         <g fill="#b91c1c">
           <rect x="4" y="76.3" width="18" height="23.8" rx="2"/>
@@ -160,19 +157,16 @@ import { siteMeta } from '../data/site-meta';
           <text x="247" y="115">'24</text>
           <text x="273" y="115">'25</text>
         </g>
+        <!-- Group 1: 2015–19 -->
+        <path d="M4,123 L4,126 L126,126 L126,123" fill="none" stroke="#d6d0c4" stroke-width="1"/>
+        <text x="65" y="140" text-anchor="middle" fill="#b91c1c" font-family="'Source Serif 4',Georgia,serif" font-size="15" font-weight="700">4.2</text>
+        <text x="65" y="149" text-anchor="middle" fill="#475569" font-family="'IBM Plex Sans',system-ui,sans-serif" font-size="7.5">avg/yr · 2015–19</text>
+        <!-- Group 2: 2020–25 -->
+        <path d="M134,123 L134,126 L282,126 L282,123" fill="none" stroke="#d6d0c4" stroke-width="1"/>
+        <text x="208" y="140" text-anchor="middle" fill="#b91c1c" font-family="'Source Serif 4',Georgia,serif" font-size="15" font-weight="700">7.0</text>
+        <text x="208" y="149" text-anchor="middle" fill="#475569" font-family="'IBM Plex Sans',system-ui,sans-serif" font-size="7.5">avg/yr · 2020–25</text>
+        <text x="208" y="157" text-anchor="middle" fill="#b91c1c" font-family="'IBM Plex Sans',system-ui,sans-serif" font-size="9" font-weight="600">▲ 67%</text>
       </svg>
-      <div class="flex items-center gap-2 mt-3">
-        <div>
-          <p class="font-display text-xl font-bold text-danger leading-none">4.2</p>
-          <p class="text-[10px] text-muted leading-tight">avg/yr<br>2015–19</p>
-        </div>
-        <svg class="w-4 h-4 text-danger flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        <div>
-          <p class="font-display text-xl font-bold text-danger leading-none">7.0</p>
-          <p class="text-[10px] text-muted leading-tight">avg/yr<br>2020–25</p>
-        </div>
-        <p class="text-xs font-semibold text-danger ml-1">▲ 67%</p>
-      </div>
     </div>
   </div>
 
