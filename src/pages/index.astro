@@ -32,7 +32,7 @@ import { siteMeta } from '../data/site-meta';
   </p>
   <div class="mt-10 animate-fade-up delay-3">
     <button type="button"
-       onclick="document.getElementById('action').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)"
+       data-scroll-to="action"
        class="inline-flex items-center gap-2 bg-danger text-white px-8 py-4 text-base font-semibold rounded hover:bg-danger-dark transition-colors cursor-pointer">
       Submit a public comment
       <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -54,7 +54,7 @@ import { siteMeta } from '../data/site-meta';
     </div>
     <div>
       <p class="font-display text-3xl sm:text-5xl font-black text-blue-400">$1.6M</p>
-      <p class="mt-2 text-sm text-muted-light">Programmed for Martin Way<br>pedestrian safety</p>
+      <p class="mt-2 text-sm text-muted-light">Programmed for<br>Martin&nbsp;Way pedestrian safety</p>
     </div>
     <div>
       <p class="font-display text-3xl sm:text-5xl font-black text-red-500">Zero</p>
@@ -75,6 +75,7 @@ import { siteMeta } from '../data/site-meta';
     <div>
       <p class="text-xs font-semibold tracking-[0.08em] uppercase text-muted mb-3">All crashes on Martin Way</p>
       <svg viewBox="0 0 286 195" xmlns="http://www.w3.org/2000/svg" class="w-full" role="img" aria-label="Bar chart showing total crashes on Martin Way declining from 334 in 2015 to 223 in 2025">
+        <title>Bar chart showing total crashes on Martin Way declining from 334 in 2015 to 223 in 2025</title>
         <line x1="0" y1="100" x2="286" y2="100" stroke="#d6d0c4" stroke-width="1"/>
         <g fill="#857f79">
           <rect x="4" y="20.7" width="18" height="79.3" rx="2"/>
@@ -117,6 +118,7 @@ import { siteMeta } from '../data/site-meta';
     <div>
       <p class="text-xs font-semibold tracking-[0.08em] uppercase text-danger mb-3">Pedestrians struck by vehicles</p>
       <svg viewBox="0 0 286 195" xmlns="http://www.w3.org/2000/svg" class="w-full" role="img" aria-label="Bar chart showing pedestrian crashes on Martin Way rising from 3 in 2015 to 10 in 2025, the highest year in the past decade">
+        <title>Bar chart showing pedestrian crashes on Martin Way rising from 3 in 2015 to 10 in 2025, the highest year in the past decade</title>
         <line x1="0" y1="100" x2="286" y2="100" stroke="#d6d0c4" stroke-width="1"/>
         <g fill="#b91c1c">
           <rect x="4" y="76.3" width="18" height="23.8" rx="2"/>
@@ -170,7 +172,7 @@ import { siteMeta } from '../data/site-meta';
     </div>
   </div>
 
-  <p class="text-xs text-muted mt-6">Source: <a href="https://remoteapps.wsdot.wa.gov/highwaysafety/collision/data/portal/public/" class="text-muted underline hover:text-ink" target="_blank" rel="noopener">WSDOT Crash Data Portal<span class="sr-only">(opens in new tab)</span></a>, Thurston County, 2015–2025</p>
+  <p class="text-xs text-muted mt-6">Source: <a href="https://remoteapps.wsdot.wa.gov/highwaysafety/collision/data/portal/public/" class="text-muted underline hover:text-ink" target="_blank" rel="noopener">WSDOT Crash Data Portal<span class="sr-only">(opens in new tab)</span></a>, Thurston&nbsp;County,&nbsp;2015–2025</p>
 </section>
 
 <!-- ═══════════ WHAT HAPPENED ═══════════ -->
@@ -216,7 +218,7 @@ import { siteMeta } from '../data/site-meta';
       <p class="text-muted-light text-sm">Martin Way E corridor, 2015–2025 · Source: WSDOT, TRPC, Intercity Transit</p>
     </div>
     <SafetyMap />
-    <div class="flex flex-wrap gap-6 justify-center mt-4">
+    <div class="grid grid-cols-2 sm:flex sm:flex-wrap sm:justify-center gap-x-6 gap-y-2 sm:gap-6 mt-4 max-w-xs sm:max-w-none mx-auto">
       <span class="flex items-center gap-2 text-sm text-muted-light"><span class="w-2.5 h-2.5 rounded-full bg-[#f85149]" aria-hidden="true"></span> Pedestrian/cyclist crash</span>
       <span class="flex items-center gap-2 text-sm text-muted-light"><span class="w-2.5 h-2.5 rounded-full bg-[#da3633] ring-2 ring-white" aria-hidden="true"></span> Fatal crash</span>
       <span class="flex items-center gap-2 text-sm text-muted-light"><span class="w-2.5 h-2.5 rounded-full bg-[#3b5f8a] opacity-50" aria-hidden="true"></span> Vehicle crash</span>
@@ -247,7 +249,7 @@ import { siteMeta } from '../data/site-meta';
 
     <!-- Primary: Public Comment -->
     <div class="bg-white border-2 border-danger rounded-lg p-5 sm:p-10 mb-6">
-      <span class="inline-block text-xs font-bold tracking-widest uppercase bg-danger-light text-danger px-3 py-1 rounded-full mb-4">Time-limited</span>
+      <span class="inline-block text-xs font-bold tracking-widest uppercase bg-danger-light text-danger-dark px-3 py-1 rounded-full mb-4">Time-limited</span>
       <h3 class="font-display text-2xl font-bold mb-3">Submit a public comment</h3>
       <p class="text-muted text-base mb-4">
         Once the hearing is scheduled, there will be a window for written comments. Your comment goes directly to the hearing examiner.
@@ -459,6 +461,15 @@ Thank you.</div>
 </main>
 
 <script>
+  document.querySelectorAll<HTMLButtonElement>('[data-scroll-to]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = document.getElementById(btn.dataset.scrollTo || '');
+      target?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+<script>
   document.querySelectorAll('[data-copy-target]').forEach(btn => {
     btn.addEventListener('click', () => {
       const targetId = btn.getAttribute('data-copy-target');
@@ -489,6 +500,8 @@ Thank you.</div>
 </script>
 
 <script>
+  history.scrollRestoration = 'manual';
+
   // Show success message for non-JS form redirect (?subscribed=1)
   if (new URLSearchParams(location.search).get('subscribed') === '1') {
     const status = document.getElementById('subscribe-status') as HTMLParagraphElement | null;
