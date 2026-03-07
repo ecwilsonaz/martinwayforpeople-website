@@ -3,7 +3,7 @@
 // Uses IntersectionObserver for lazy loading (no framework needed)
 ---
 
-<div id="safety-map" class="border border-slate-700 rounded-xl shadow-xl shadow-black/30" role="application" aria-label="Interactive map of Martin Way showing crashes, bus stops, crossing locations, and the proposed Chick-fil-A site"></div>
+<div id="safety-map" class="border border-slate-700 rounded-xl shadow-xl shadow-black/30" role="application" aria-label="Interactive map of Martin Way showing crashes, bus stops, proposed crossing locations, and the proposed Chick-fil-A site"></div>
 
 <style>
   #safety-map {
@@ -322,7 +322,7 @@
     // Layer Control
     L.control.layers(undefined, {
       'Bus Stops': busStopsLayer,
-      'Crossing Locations': crossingsLayer,
+      'Proposed Crossings': crossingsLayer,
       'Chick-fil-A Site': siteParcelLayer,
       'Safety Project Corridor': safetyCorridorLayer,
       'Crashes (2015\u20132025)': crashesLayer,
